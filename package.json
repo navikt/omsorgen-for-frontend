@@ -8,7 +8,6 @@
         "start": "node ./server.js",
         "build": "webpack --config webpack/webpack-config.production.js",
         "dev": "node webpack/webpack-config.development.js",
-        "api-mock": "ts-node mock/api-mock.ts",
         "version": "node ./version.js",
         "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'"
     },
