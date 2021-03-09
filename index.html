@@ -9,27 +9,30 @@
         </style>
     </head>
     <body>
-        <div id="app" style="padding:2.5rem"></div>
+        <div id="app" style="padding: 2.5rem"></div>
         <script type="text/javascript">
             setTimeout(() => {
                 window.renderOmsorgenForApp('app', {
                     readOnly: false,
                     omsorgsperioderTilVurdering: [
                         {
-                            periode: { fom: new Date(), tom: new Date() },
-                            relasjon: 'tantebarn',
-                            relasjonsbeskrivelse: 'nei'
-                        }
-                    ],
-                    vurderteOmsorgsperioder: [{
-                        periode: {
-                            fom: new Date(), tom: new Date()
+                            periode: { fom: '2021-03-09', tom: '2021-03-10' },
+                            relasjon: 'Annet',
+                            relasjonsbeskrivelse: 'Tantebarn',
                         },
-                        resultat: 'OPPFYLT',
-                        relasjon: 'blabla',
-                        relasjonsbeskrivelse: 'blabla beskrivelse',
-                        begrunnelse: 'heisann hoppsann'
-                    }]
+                    ],
+                    vurderteOmsorgsperioder: [
+                        {
+                            periode: {
+                                fom: '2021-03-01',
+                                tom: '2021-03-05',
+                            },
+                            resultat: 'OPPFYLT',
+                            relasjon: 'blabla',
+                            relasjonsbeskrivelse: 'blabla beskrivelse',
+                            begrunnelse: 'heisann hoppsann',
+                        },
+                    ],
                 });
             }, 300);
         </script>
