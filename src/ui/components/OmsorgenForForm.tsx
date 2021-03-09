@@ -1,7 +1,10 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { Period } from '../../types/Period';
 import PeriodpickerList from '../form/wrappers/PeriodpickerList';
+import { prettifyPeriod } from '../../util/formats';
+import TextArea from '../form/wrappers/TextArea';
 
 interface OmsorgenForFormProps {
     perioderSomMåVurderes: Period[];
@@ -15,7 +18,8 @@ const OmsorgenForForm = ({ perioderSomMåVurderes }: OmsorgenForFormProps) => {
     return (
         <div>
             <FormProvider {...formMethods}>
-                <form onSubmit={(data) => console.log(123)}>
+                Disse periodene må vurderes {perioderSomMåVurderes.map(prettifyPeriod)}
+                <form onSubmit={(e) => e.preventDefault()}>
                     <PeriodpickerList
                         name="perioder1"
                         legend="perioder oppfylt"
@@ -28,6 +32,8 @@ const OmsorgenForForm = ({ perioderSomMåVurderes }: OmsorgenForFormProps) => {
                         fromDatepickerProps={{ label: 'fra' }}
                         toDatepickerProps={{ label: 'til' }}
                     />
+                    <TextArea name="begrunnelse" label="Begrunnelse" />
+                    <Hovedknapp>Lagre</Hovedknapp>
                 </form>
             </FormProvider>
         </div>

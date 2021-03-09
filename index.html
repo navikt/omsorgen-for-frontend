@@ -13,8 +13,23 @@
         <script type="text/javascript">
             setTimeout(() => {
                 window.renderOmsorgenForApp('app', {
-                    readOnly: true,
-                    perioderSomMåVurderes: []
+                    readOnly: false,
+                    omsorgsperioderTilVurdering: [
+                        {
+                            periode: { fom: new Date(), tom: new Date() },
+                            relasjon: 'tantebarn',
+                            relasjonsbeskrivelse: 'nei'
+                        }
+                    ],
+                    vurderteOmsorgsperioder: [{
+                        periode: {
+                            fom: new Date(), tom: new Date()
+                        },
+                        resultat: 'OPPFYLT',
+                        relasjon: 'blabla',
+                        relasjonsbeskrivelse: 'blabla beskrivelse',
+                        begrunnelse: 'heisann hoppsann'
+                    }]
                 });
             }, 300);
         </script>

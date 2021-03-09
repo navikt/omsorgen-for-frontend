@@ -1,9 +1,6 @@
 import renderers from './util/renderers';
 
-(window as any).renderOmsorgenForApp = async (appId) => {
+(window as any).renderOmsorgenForApp = async (appId, data) => {
     const { renderAppInSuccessfulState } = renderers;
-    renderAppInSuccessfulState(appId, {
-        perioderSomMåVurderes: [],
-        readOnly: false,
-    });
+    renderAppInSuccessfulState(appId, data);
 };

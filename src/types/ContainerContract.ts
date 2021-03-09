@@ -1,6 +1,7 @@
-import { Period } from './Period';
+import { Omsorgsperiode, VurdertOmsorgsperiode } from './OppgittOmsorgsperiode';
 
 export interface ContainerContract {
-    perioderSomMåVurderes: Period[];
+    omsorgsperioderTilVurdering: Omsorgsperiode[];
+    vurderteOmsorgsperioder: VurdertOmsorgsperiode[];
     readOnly: boolean;
 }
