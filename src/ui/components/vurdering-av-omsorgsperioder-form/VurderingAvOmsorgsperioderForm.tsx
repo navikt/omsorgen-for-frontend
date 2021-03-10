@@ -1,23 +1,32 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Omsorgsperiode } from '../../types/OppgittOmsorgsperiode';
-import PeriodpickerList from '../form/wrappers/PeriodpickerList';
-import RadioGroup from '../form/wrappers/RadioGroup';
-import TextArea from '../form/wrappers/TextArea';
-import AddButton from './add-button/AddButton';
-import Box, { Margin } from './box/Box';
-import DetailView from './detail-view/DetailView';
-import Form from './form/Form';
-import LabelledContent from './labelled-content/LabelledContent';
-import DeleteButton from './delete-button/DeleteButton';
-import { Period } from '../../types/Period';
-import Relajson from '../../types/Relasjon';
+import { Omsorgsperiode } from '../../../types/OppgittOmsorgsperiode';
+import DetailView from '../detail-view/DetailView';
+import Box, { Margin } from '../box/Box';
+import LabelledContent from '../labelled-content/LabelledContent';
+import Relasjon from '../../../types/Relasjon';
+import Form from '../form/Form';
+import RadioGroup from '../../form/wrappers/RadioGroup';
+import TextArea from '../../form/wrappers/TextArea';
+import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
+import { Period } from '../../../types/Period';
+import DeleteButton from '../delete-button/DeleteButton';
+import AddButton from '../add-button/AddButton';
 
-interface OmsorgenForFormProps {
+interface VurderingAvOmsorgsperioderFormProps {
     omsorgsperiode: Omsorgsperiode;
+    onSubmit: () => void;
 }
 
-const OmsorgenForForm = ({ omsorgsperiode }: OmsorgenForFormProps): JSX.Element => {
+interface VurderingAvOmsorgsperioderFormState {
+    begrunnelse: string;
+    perioder: Period[];
+}
+
+const VurderingAvOmsorgsperioderForm = ({
+    omsorgsperiode,
+    onSubmit,
+}: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
     const formMethods = useForm({
         defaultValues: {
             perioder: [omsorgsperiode.periode],
@@ -30,7 +39,7 @@ const OmsorgenForForm = ({ omsorgsperiode }: OmsorgenForFormProps): JSX.Element 
                 <Box marginTop={Margin.xLarge}>
                     <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
                 </Box>
-                {omsorgsperiode.relasjon === Relajson.ANNET && (
+                {omsorgsperiode.relasjon === Relasjon.ANNET && (
                     <Box marginTop={Margin.xLarge}>
                         <LabelledContent label="Beskrivelse fra søker" content={omsorgsperiode.relasjonsbeskrivelse} />
                     </Box>
@@ -44,9 +53,9 @@ const OmsorgenForForm = ({ omsorgsperiode }: OmsorgenForFormProps): JSX.Element 
                     </Box>
                     <Box marginTop={Margin.xLarge}>
                         <RadioGroup
-                            question="Har søker omsorgen for barnet i denne perioder?"
+                            question="Har søker omsorgen for barnet i denne perioden?"
                             radios={[
-                                { value: 'hele', label: 'Ja, hele perioden' },
+                                { value: 'ja', label: 'Ja' },
                                 { value: 'deler', label: 'Ja, i deler av perioden' },
                                 { value: 'nei', label: 'Nei' },
                             ]}
@@ -90,4 +99,4 @@ const OmsorgenForForm = ({ omsorgsperiode }: OmsorgenForFormProps): JSX.Element 
     );
 };
 
-export default OmsorgenForForm;
+export default VurderingAvOmsorgsperioderForm;

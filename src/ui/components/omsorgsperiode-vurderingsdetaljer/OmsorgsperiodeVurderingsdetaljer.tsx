@@ -1,15 +1,15 @@
 import React from 'react';
-import { VurdertOmsorgsperiode } from '../../types/OppgittOmsorgsperiode';
-import Relajson from '../../types/Relasjon';
-import Box, { Margin } from './box/Box';
-import DetailView from './detail-view/DetailView';
-import LabelledContent from './labelled-content/LabelledContent';
+import { VurdertOmsorgsperiode } from '../../../types/OppgittOmsorgsperiode';
+import Relajson from '../../../types/Relasjon';
+import Box, { Margin } from '../box/Box';
+import DetailView from '../detail-view/DetailView';
+import LabelledContent from '../labelled-content/LabelledContent';
 
-interface OmsorgenForSummaryProps {
+interface OmsorgsperiodeVurderingsdetaljerProps {
     omsorgsperiode: VurdertOmsorgsperiode;
 }
 
-const OmsorgenForSummary = ({ omsorgsperiode }: OmsorgenForSummaryProps) => {
+const OmsorgsperiodeVurderingsdetaljer = ({ omsorgsperiode }: OmsorgsperiodeVurderingsdetaljerProps) => {
     return (
         <DetailView title="Vurdering av omsorg">
             <Box marginTop={Margin.xLarge}>
@@ -30,4 +30,4 @@ const OmsorgenForSummary = ({ omsorgsperiode }: OmsorgenForSummaryProps) => {
     );
 };
 
-export default OmsorgenForSummary;
+export default OmsorgsperiodeVurderingsdetaljer;

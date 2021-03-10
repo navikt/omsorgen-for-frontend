@@ -3,8 +3,8 @@ import { ContainerContract } from '../types/ContainerContract';
 import NavigationWithDetailView from './components/navigation-with-detail-view/NavigationWithDetailView';
 import Periodenavigasjon from './components/periodenavigasjon/Periodenavigasjon';
 import { Omsorgsperiode, VurdertOmsorgsperiode } from '../types/OppgittOmsorgsperiode';
-import OmsorgenForForm from './components/OmsorgenForForm';
-import OmsorgenForSummary from './components/OmsorgenForSummary';
+import OmsorgsperiodeVurderingsdetaljer from './components/omsorgsperiode-vurderingsdetaljer/OmsorgsperiodeVurderingsdetaljer';
+import VurderingAvOmsorgsperioderForm from './components/vurdering-av-omsorgsperioder-form/VurderingAvOmsorgsperioderForm';
 
 interface MainComponentProps {
     data: ContainerContract;
@@ -21,7 +21,7 @@ const MainComponent = ({
                     <Periodenavigasjon
                         perioderTilVurdering={omsorgsperioderTilVurdering}
                         vurdertePerioder={vurderteOmsorgsperioder}
-                        onPeriodeValgt={(p) => setValgtPeriode(p)}
+                        onPeriodeValgt={setValgtPeriode}
                     />
                 )}
                 detailSection={() => {
@@ -29,9 +29,13 @@ const MainComponent = ({
                         return null;
                     }
                     if ((valgtPeriode as VurdertOmsorgsperiode).resultat) {
-                        return <OmsorgenForSummary omsorgsperiode={valgtPeriode as VurdertOmsorgsperiode} />;
+                        return (
+                            <OmsorgsperiodeVurderingsdetaljer omsorgsperiode={valgtPeriode as VurdertOmsorgsperiode} />
+                        );
                     }
-                    return <OmsorgenForForm omsorgsperiode={valgtPeriode} />;
+                    return (
+                        <VurderingAvOmsorgsperioderForm omsorgsperiode={valgtPeriode} onSubmit={() => console.log(1)} />
+                    );
                 }}
             />
         </div>
