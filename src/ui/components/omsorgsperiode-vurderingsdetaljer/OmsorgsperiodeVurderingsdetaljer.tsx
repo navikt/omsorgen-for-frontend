@@ -1,6 +1,8 @@
 import React from 'react';
 import { VurdertOmsorgsperiode } from '../../../types/OppgittOmsorgsperiode';
 import Relajson from '../../../types/Relasjon';
+import Vurderingsresultat from '../../../types/Vurderingsresultat';
+import { prettifyPeriod } from '../../../util/formats';
 import Box, { Margin } from '../box/Box';
 import DetailView from '../detail-view/DetailView';
 import LabelledContent from '../labelled-content/LabelledContent';
@@ -24,6 +26,18 @@ const OmsorgsperiodeVurderingsdetaljer = ({ omsorgsperiode }: OmsorgsperiodeVurd
                 <LabelledContent
                     label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
                     content={omsorgsperiode.begrunnelse}
+                />
+            </Box>
+            <Box marginTop={Margin.xLarge}>
+                <LabelledContent
+                    label="Har søker omsorgen for barnet i denne perioden?"
+                    content={omsorgsperiode.resultat === Vurderingsresultat.OPPFYLT ? 'Ja' : 'Nei'}
+                />
+            </Box>
+            <Box marginTop={Margin.xLarge}>
+                <LabelledContent
+                    label="I hvilken periode har søker omsorgen for barnet?"
+                    content={prettifyPeriod(omsorgsperiode.periode)}
                 />
             </Box>
         </DetailView>
