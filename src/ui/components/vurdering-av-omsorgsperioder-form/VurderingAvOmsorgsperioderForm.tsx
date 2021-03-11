@@ -12,6 +12,8 @@ import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
 import { Period } from '../../../types/Period';
 import DeleteButton from '../delete-button/DeleteButton';
 import AddButton from '../add-button/AddButton';
+import { getPeriodDifference } from '../../../util/dateUtils';
+import { prettifyPeriod } from '../../../util/formats';
 
 interface VurderingAvOmsorgsperioderFormProps {
     omsorgsperiode: Omsorgsperiode;
@@ -29,9 +31,14 @@ const VurderingAvOmsorgsperioderForm = ({
 }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
     const formMethods = useForm({
         defaultValues: {
-            perioder: [omsorgsperiode.periode],
+            perioder: [{ period: omsorgsperiode.periode }],
         },
     });
+
+    const perioder = formMethods.watch('perioder');
+    const formatertePerioder = perioder.map((periode) => periode.period);
+    const resterendePerioder =
+        formatertePerioder.length > 0 && getPeriodDifference(omsorgsperiode.periode, formatertePerioder);
 
     return (
         <DetailView title="Vurdering av omsorg">
@@ -44,7 +51,7 @@ const VurderingAvOmsorgsperioderForm = ({
                         <LabelledContent label="Beskrivelse fra søker" content={omsorgsperiode.relasjonsbeskrivelse} />
                     </Box>
                 )}
-                <Form onSubmit={formMethods.handleSubmit} buttonLabel="Bekreft og fortsett">
+                <Form onSubmit={formMethods.handleSubmit(onSubmit)} buttonLabel="Bekreft og fortsett">
                     <Box marginTop={Margin.xLarge}>
                         <TextArea
                             label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
@@ -93,6 +100,16 @@ const VurderingAvOmsorgsperioderForm = ({
                             )}
                         />
                     </Box>
+                    {resterendePerioder.length > 0 && (
+                        <Box marginTop={Margin.xLarge}>
+                            <LabelledContent
+                                label="Resterende perioder har søkeren ikke omsorgen for barnet:"
+                                content={resterendePerioder.map((periode) => (
+                                    <p>{prettifyPeriod(periode)}</p>
+                                ))}
+                            />
+                        </Box>
+                    )}
                 </Form>
             </FormProvider>
         </DetailView>
