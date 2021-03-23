@@ -1,7 +1,7 @@
-import { Omsorgsperiode, VurdertOmsorgsperiode } from './OppgittOmsorgsperiode';
+import Omsorgsperiode from './OppgittOmsorgsperiode';
 
 export interface ContainerContract {
-    omsorgsperioderTilVurdering: Omsorgsperiode[];
-    vurderteOmsorgsperioder: VurdertOmsorgsperiode[];
+    omsorgsperioder: Omsorgsperiode[];
     readOnly: boolean;
+    onFinished: (vurdering) => void;
 }

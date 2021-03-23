@@ -1,5 +1,5 @@
 import React from 'react';
-import { VurdertOmsorgsperiode } from '../../../types/OppgittOmsorgsperiode';
+import Omsorgsperiode from '../../../types/OppgittOmsorgsperiode';
 import Relajson from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
 import { prettifyPeriod } from '../../../util/formats';
@@ -8,7 +8,7 @@ import DetailView from '../detail-view/DetailView';
 import LabelledContent from '../labelled-content/LabelledContent';
 
 interface OmsorgsperiodeVurderingsdetaljerProps {
-    omsorgsperiode: VurdertOmsorgsperiode;
+    omsorgsperiode: Omsorgsperiode;
 }
 
 const OmsorgsperiodeVurderingsdetaljer = ({ omsorgsperiode }: OmsorgsperiodeVurderingsdetaljerProps) => {

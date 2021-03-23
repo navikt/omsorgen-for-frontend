@@ -14,14 +14,14 @@
             setTimeout(() => {
                 window.renderOmsorgenForApp('app', {
                     readOnly: false,
-                    omsorgsperioderTilVurdering: [
+                    omsorgsperioder: [
                         {
                             periode: { fom: '2021-03-09', tom: '2021-03-15' },
                             relasjon: 'Annet',
                             relasjonsbeskrivelse: 'Tantebarn',
+                            resultat: null,
+                            begrunnelse: null,
                         },
-                    ],
-                    vurderteOmsorgsperioder: [
                         {
                             periode: {
                                 fom: '2021-03-01',
@@ -29,7 +29,7 @@
                             },
                             resultat: 'OPPFYLT',
                             relasjon: 'Far',
-                            relasjonsbeskrivelse: 'blabla beskrivelse',
+                            relasjonsbeskrivelse: null,
                             begrunnelse: 'heisann hoppsann',
                         },
                     ],

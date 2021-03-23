@@ -11,7 +11,7 @@ interface FormProps {
 
 const Form = ({ children, onSubmit, buttonLabel, shouldShowSubmitButton }: FormProps): JSX.Element => {
     return (
-        <form onSubmit={onSubmit}>
+        <form style={{ margin: '0' }} onSubmit={onSubmit}>
             {children}
             {shouldShowSubmitButton !== false && (
                 <Box marginTop={Margin.xxLarge}>

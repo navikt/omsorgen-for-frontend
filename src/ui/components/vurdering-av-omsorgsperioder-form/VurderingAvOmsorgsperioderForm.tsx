@@ -1,19 +1,45 @@
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Omsorgsperiode } from '../../../types/OppgittOmsorgsperiode';
-import DetailView from '../detail-view/DetailView';
-import Box, { Margin } from '../box/Box';
-import LabelledContent from '../labelled-content/LabelledContent';
-import Relasjon from '../../../types/Relasjon';
-import Form from '../form/Form';
-import RadioGroup from '../../form/wrappers/RadioGroup';
-import TextArea from '../../form/wrappers/TextArea';
-import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
+import Omsorgsperiode from '../../../types/OppgittOmsorgsperiode';
 import { Period } from '../../../types/Period';
-import DeleteButton from '../delete-button/DeleteButton';
-import AddButton from '../add-button/AddButton';
+import Relasjon from '../../../types/Relasjon';
+import Vurderingsresultat from '../../../types/Vurderingsresultat';
 import { getPeriodDifference } from '../../../util/dateUtils';
 import { prettifyPeriod } from '../../../util/formats';
+import ContainerContext from '../../context/ContainerContext';
+import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
+import RadioGroup from '../../form/wrappers/RadioGroup';
+import TextArea from '../../form/wrappers/TextArea';
+import AddButton from '../add-button/AddButton';
+import Box, { Margin } from '../box/Box';
+import DeleteButton from '../delete-button/DeleteButton';
+import DetailView from '../detail-view/DetailView';
+import Form from '../form/Form';
+import LabelledContent from '../labelled-content/LabelledContent';
+
+export enum FieldName {
+    BEGRUNNELSE = 'begrunnelse',
+    HAR_SØKER_OMSORGEN_FOR_I_PERIODE = 'harSøkerOmsorgenForIPeriode',
+    PERIODER = 'perioder',
+}
+
+enum RadioOptions {
+    JA = 'ja',
+    NEI = 'nei',
+}
+
+interface FormPeriod {
+    period: Period;
+}
+
+const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurdering: Period) => {
+    const formatertePerioderFraForm = perioderFraForm.map((periode) => periode.period);
+    const resterendePerioder =
+        formatertePerioderFraForm.length > 0 && getPeriodDifference(periodeTilVurdering, formatertePerioderFraForm);
+
+    return resterendePerioder;
+};
 
 interface VurderingAvOmsorgsperioderFormProps {
     omsorgsperiode: Omsorgsperiode;
@@ -21,24 +47,50 @@ interface VurderingAvOmsorgsperioderFormProps {
 }
 
 interface VurderingAvOmsorgsperioderFormState {
-    begrunnelse: string;
-    perioder: Period[];
+    [FieldName.BEGRUNNELSE]: string;
+    [FieldName.PERIODER]: FormPeriod[];
+    [FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE]: RadioOptions;
 }
 
-const VurderingAvOmsorgsperioderForm = ({
-    omsorgsperiode,
-    onSubmit,
-}: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
+const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
+    const { onFinished } = React.useContext(ContainerContext);
+
     const formMethods = useForm({
         defaultValues: {
-            perioder: [{ period: omsorgsperiode.periode }],
+            [FieldName.PERIODER]: [{ period: omsorgsperiode.periode }],
         },
     });
 
-    const perioder = formMethods.watch('perioder');
-    const formatertePerioder = perioder.map((periode) => periode.period);
-    const resterendePerioder =
-        formatertePerioder.length > 0 && getPeriodDifference(omsorgsperiode.periode, formatertePerioder);
+    const handleSubmit = (formState: VurderingAvOmsorgsperioderFormState) => {
+        const { begrunnelse, perioder, harSøkerOmsorgenForIPeriode } = formState;
+        const { relasjon, relasjonsbeskrivelse } = omsorgsperiode;
+
+        const perioderMedEllerUtenOmsorg = perioder.map(({ period }) => ({
+            periode: period,
+            resultat:
+                harSøkerOmsorgenForIPeriode === RadioOptions.JA
+                    ? Vurderingsresultat.OPPFYLT
+                    : Vurderingsresultat.IKKE_OPPFYLT,
+            relasjon,
+            relasjonsbeskrivelse,
+            begrunnelse,
+        }));
+
+        const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
+        const perioderUtenOmsorg = resterendePerioder.map((periode) => ({
+            periode,
+            resultat: Vurderingsresultat.IKKE_OPPFYLT,
+            relasjon,
+            relasjonsbeskrivelse,
+            begrunnelse: null,
+        }));
+
+        const kombinertePerioder = perioderMedEllerUtenOmsorg.concat(perioderUtenOmsorg);
+        onFinished({ omsorgsperioder: kombinertePerioder });
+    };
+
+    const perioder = formMethods.watch(FieldName.PERIODER);
+    const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
 
     return (
         <DetailView title="Vurdering av omsorg">
@@ -51,27 +103,27 @@ const VurderingAvOmsorgsperioderForm = ({
                         <LabelledContent label="Beskrivelse fra søker" content={omsorgsperiode.relasjonsbeskrivelse} />
                     </Box>
                 )}
-                <Form onSubmit={formMethods.handleSubmit(onSubmit)} buttonLabel="Bekreft og fortsett">
+                <Form onSubmit={formMethods.handleSubmit(handleSubmit)} buttonLabel="Bekreft og fortsett">
                     <Box marginTop={Margin.xLarge}>
                         <TextArea
                             label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
-                            name="vurderOmsorgen"
+                            name={FieldName.BEGRUNNELSE}
                         />
                     </Box>
                     <Box marginTop={Margin.xLarge}>
                         <RadioGroup
                             question="Har søker omsorgen for barnet i denne perioden?"
                             radios={[
-                                { value: 'ja', label: 'Ja' },
-                                { value: 'deler', label: 'Ja, i deler av perioden' },
-                                { value: 'nei', label: 'Nei' },
+                                { value: RadioOptions.JA, label: 'Ja' },
+                                // { value: 'deler', label: 'Ja, i deler av perioden' },
+                                { value: RadioOptions.NEI, label: 'Nei' },
                             ]}
-                            name="harSøkerOmsorgenForIPeriode"
+                            name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
                         />
                     </Box>
                     <Box marginTop={Margin.xLarge}>
                         <PeriodpickerList
-                            name="perioder"
+                            name={FieldName.PERIODER}
                             legend="I hvilke perioder har søker omsorgen for barnet?"
                             fromDatepickerProps={{ label: 'Fra', ariaLabel: 'Fra' }}
                             toDatepickerProps={{ label: 'Til', ariaLabel: 'Til' }}
@@ -102,12 +154,16 @@ const VurderingAvOmsorgsperioderForm = ({
                     </Box>
                     {resterendePerioder.length > 0 && (
                         <Box marginTop={Margin.xLarge}>
-                            <LabelledContent
-                                label="Resterende perioder har søkeren ikke omsorgen for barnet:"
-                                content={resterendePerioder.map((periode) => (
-                                    <p>{prettifyPeriod(periode)}</p>
-                                ))}
-                            />
+                            <AlertStripeInfo>
+                                <LabelledContent
+                                    label="Resterende perioder har søkeren ikke omsorgen for barnet:"
+                                    content={resterendePerioder.map((periode) => (
+                                        <p key={`${periode.fom}-${periode.tom}`} style={{ margin: 0 }}>
+                                            {prettifyPeriod(periode)}
+                                        </p>
+                                    ))}
+                                />
+                            </AlertStripeInfo>
                         </Box>
                     )}
                 </Form>

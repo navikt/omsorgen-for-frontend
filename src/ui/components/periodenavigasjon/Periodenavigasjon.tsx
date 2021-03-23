@@ -2,14 +2,14 @@ import React from 'react';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import InteractiveList from '../interactive-list/InteractiveList';
 import VurderingsperiodeElement from '../vurderingsperiode/VurderingsperiodeElement';
-import { Omsorgsperiode, VurdertOmsorgsperiode } from '../../../types/OppgittOmsorgsperiode';
+import Omsorgsperiode from '../../../types/OppgittOmsorgsperiode';
 import PeriodeSomSkalVurderes from '../periode-som-skal-vurderes/PeriodeSomSkalVurderes';
 import styles from './periodenavigasjon.less';
 
 interface PeriodenavigasjonProps {
     perioderTilVurdering: Omsorgsperiode[];
-    vurdertePerioder: VurdertOmsorgsperiode[];
-    onPeriodeValgt: (periode: Omsorgsperiode | VurdertOmsorgsperiode) => void;
+    vurdertePerioder: Omsorgsperiode[];
+    onPeriodeValgt: (periode: Omsorgsperiode) => void;
 }
 
 const Periodenavigasjon = ({
