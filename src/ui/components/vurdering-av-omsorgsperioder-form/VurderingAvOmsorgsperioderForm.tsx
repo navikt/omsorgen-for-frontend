@@ -26,6 +26,7 @@ export enum FieldName {
 
 enum RadioOptions {
     JA = 'ja',
+    JA_DELER = 'jaDeler',
     NEI = 'nei',
 }
 
@@ -65,31 +66,46 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
         const { begrunnelse, perioder, harSøkerOmsorgenForIPeriode } = formState;
         const { relasjon, relasjonsbeskrivelse } = omsorgsperiode;
 
-        const perioderMedEllerUtenOmsorg = perioder.map(({ period }) => ({
-            periode: period,
-            resultat:
-                harSøkerOmsorgenForIPeriode === RadioOptions.JA
-                    ? Vurderingsresultat.OPPFYLT
-                    : Vurderingsresultat.IKKE_OPPFYLT,
-            relasjon,
-            relasjonsbeskrivelse,
-            begrunnelse,
-        }));
+        let perioderMedEllerUtenOmsorg;
+        let perioderUtenOmsorg = [];
+        if (harSøkerOmsorgenForIPeriode === RadioOptions.JA_DELER) {
+            perioderMedEllerUtenOmsorg = perioder.map(({ period }) => ({
+                periode: period,
+                resultat: Vurderingsresultat.OPPFYLT,
+                relasjon,
+                relasjonsbeskrivelse,
+                begrunnelse,
+            }));
 
-        const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
-        const perioderUtenOmsorg = resterendePerioder.map((periode) => ({
-            periode,
-            resultat: Vurderingsresultat.IKKE_OPPFYLT,
-            relasjon,
-            relasjonsbeskrivelse,
-            begrunnelse: null,
-        }));
+            const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
+            perioderUtenOmsorg = resterendePerioder.map((periode) => ({
+                periode,
+                resultat: Vurderingsresultat.IKKE_OPPFYLT,
+                relasjon,
+                relasjonsbeskrivelse,
+                begrunnelse: null,
+            }));
+        } else {
+            perioderMedEllerUtenOmsorg = [
+                {
+                    periode: omsorgsperiode.periode,
+                    resultat:
+                        harSøkerOmsorgenForIPeriode === RadioOptions.JA
+                            ? Vurderingsresultat.OPPFYLT
+                            : Vurderingsresultat.IKKE_OPPFYLT,
+                    relasjon,
+                    relasjonsbeskrivelse,
+                    begrunnelse,
+                },
+            ];
+        }
 
         const kombinertePerioder = perioderMedEllerUtenOmsorg.concat(perioderUtenOmsorg);
         onFinished({ omsorgsperioder: kombinertePerioder });
     };
 
     const perioder = formMethods.watch(FieldName.PERIODER);
+    const harSøkerOmsorgenFor = formMethods.watch(FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE);
     const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
 
     return (
@@ -115,43 +131,45 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                             question="Har søker omsorgen for barnet i denne perioden?"
                             radios={[
                                 { value: RadioOptions.JA, label: 'Ja' },
-                                // { value: 'deler', label: 'Ja, i deler av perioden' },
+                                { value: RadioOptions.JA_DELER, label: 'Ja, i deler av perioden' },
                                 { value: RadioOptions.NEI, label: 'Nei' },
                             ]}
                             name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
                         />
                     </Box>
-                    <Box marginTop={Margin.xLarge}>
-                        <PeriodpickerList
-                            name={FieldName.PERIODER}
-                            legend="I hvilke perioder har søker omsorgen for barnet?"
-                            fromDatepickerProps={{ label: 'Fra', ariaLabel: 'Fra' }}
-                            toDatepickerProps={{ label: 'Til', ariaLabel: 'Til' }}
-                            defaultValues={[new Period(omsorgsperiode.periode.fom, omsorgsperiode.periode.tom)]}
-                            renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => {
-                                return (
-                                    <>
-                                        {numberOfItems > 1 && (
-                                            <DeleteButton
-                                                onClick={() => {
-                                                    fieldArrayMethods.remove(index);
-                                                }}
-                                            />
-                                        )}
-                                    </>
-                                );
-                            }}
-                            renderAfterFieldArray={(fieldArrayMethods) => (
-                                <Box marginTop={Margin.large}>
-                                    <AddButton
-                                        label="Legg til periode"
-                                        onClick={() => fieldArrayMethods.append({ fom: '', tom: '' })}
-                                        id="leggTilPeriodeKnapp"
-                                    />
-                                </Box>
-                            )}
-                        />
-                    </Box>
+                    {harSøkerOmsorgenFor === RadioOptions.JA_DELER && (
+                        <Box marginTop={Margin.xLarge}>
+                            <PeriodpickerList
+                                name={FieldName.PERIODER}
+                                legend="I hvilke perioder har søker omsorgen for barnet?"
+                                fromDatepickerProps={{ label: 'Fra', ariaLabel: 'Fra' }}
+                                toDatepickerProps={{ label: 'Til', ariaLabel: 'Til' }}
+                                defaultValues={[new Period(omsorgsperiode.periode.fom, omsorgsperiode.periode.tom)]}
+                                renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => {
+                                    return (
+                                        <>
+                                            {numberOfItems > 1 && (
+                                                <DeleteButton
+                                                    onClick={() => {
+                                                        fieldArrayMethods.remove(index);
+                                                    }}
+                                                />
+                                            )}
+                                        </>
+                                    );
+                                }}
+                                renderAfterFieldArray={(fieldArrayMethods) => (
+                                    <Box marginTop={Margin.large}>
+                                        <AddButton
+                                            label="Legg til periode"
+                                            onClick={() => fieldArrayMethods.append({ fom: '', tom: '' })}
+                                            id="leggTilPeriodeKnapp"
+                                        />
+                                    </Box>
+                                )}
+                            />
+                        </Box>
+                    )}
                     {resterendePerioder.length > 0 && (
                         <Box marginTop={Margin.xLarge}>
                             <AlertStripeInfo>
