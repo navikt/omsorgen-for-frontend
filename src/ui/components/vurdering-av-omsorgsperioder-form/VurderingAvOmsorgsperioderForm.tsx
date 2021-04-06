@@ -83,7 +83,7 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                 resultat: Vurderingsresultat.IKKE_OPPFYLT,
                 relasjon,
                 relasjonsbeskrivelse,
-                begrunnelse: null,
+                begrunnelse: null, // TODO: skal denne være null?
             }));
         } else {
             perioderMedEllerUtenOmsorg = [
