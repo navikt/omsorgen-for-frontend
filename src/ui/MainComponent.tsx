@@ -1,66 +1,62 @@
-import AlertStripe from 'nav-frontend-alertstriper';
-import React, { useState } from 'react';
+import React from 'react';
+import axios from 'axios';
 import { ContainerContract } from '../types/ContainerContract';
-import Omsorgsperiode from '../types/OppgittOmsorgsperiode';
-import { getStringMedPerioder } from '../util/periodUtils';
-import Box, { Margin } from './components/box/Box';
-import NavigationWithDetailView from './components/navigation-with-detail-view/NavigationWithDetailView';
-import OmsorgsperiodeVurderingsdetaljer from './components/omsorgsperiode-vurderingsdetaljer/OmsorgsperiodeVurderingsdetaljer';
-import Periodenavigasjon from './components/periodenavigasjon/Periodenavigasjon';
-import VurderingAvOmsorgsperioderForm from './components/vurdering-av-omsorgsperioder-form/VurderingAvOmsorgsperioderForm';
-import ContainerContext from './context/ContainerContext';
+import OmsorgsperiodeoversiktType from '../types/Omsorgsperiodeoversikt';
+import Omsorgsperiodeoversikt from './components/omsorgsperiodeoversikt/Omsorgsperiodeoversikt';
+import { get } from '../util/httpUtils';
+import OmsorgsperioderResponse from '../types/OmsorgsperioderResponse';
+import PageContainer from './components/page-container/PageContainer';
+import mainComponentReducer from './reducer';
 import styles from './mainComponent.less';
+import ContainerContext from './context/ContainerContext';
 
 interface MainComponentProps {
     data: ContainerContract;
 }
 
 const MainComponent = ({ data }: MainComponentProps) => {
-    const [valgtPeriode, setValgtPeriode] = useState<Omsorgsperiode>(null);
-    const { omsorgsperioder } = data;
-    const omsorgsperioderTilVurdering = omsorgsperioder.filter((perioder) => perioder.resultat == null);
-    const vurderteOmsorgsperioder = omsorgsperioder.filter((perioder) => perioder.resultat != null);
-    const harPerioderTilVurdering = omsorgsperioderTilVurdering?.length > 0;
-    const listeMedOmsorgsperioder = harPerioderTilVurdering
-        ? omsorgsperioderTilVurdering.map((omsorgsperiode) => omsorgsperiode.periode)
-        : [];
+    const [state, dispatch] = React.useReducer(mainComponentReducer, {
+        isLoading: true,
+        omsorgsperiodeoversiktHarFeilet: false,
+        omsorgsperiodeoversikt: null,
+    });
+
+    const { omsorgsperiodeoversikt, isLoading, omsorgsperiodeoversiktHarFeilet } = state;
+
+    const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
+
+    const getOmsorgsperioder = () =>
+        get<OmsorgsperioderResponse>(data.endpoints.omsorgsperioder, data.httpErrorHandler, {
+            cancelToken: httpCanceler.token,
+        });
+
+    const handleError = () => {
+        dispatch({ type: 'failed' });
+    };
+
+    React.useEffect(() => {
+        let isMounted = true;
+        getOmsorgsperioder()
+            .then(({ omsorgsperioder }: OmsorgsperioderResponse) => {
+                if (isMounted) {
+                    const nyOmsorgsperiodeoversikt = new OmsorgsperiodeoversiktType(omsorgsperioder);
+                    dispatch({ type: 'ok', omsorgsperiodeoversikt: nyOmsorgsperiodeoversikt });
+                }
+            })
+            .catch(handleError);
+        return () => {
+            isMounted = false;
+            httpCanceler.cancel();
+        };
+    }, []);
 
     return (
         <ContainerContext.Provider value={data}>
-            <div className={styles.mainComponent}>
-                {harPerioderTilVurdering && (
-                    <Box marginBottom={Margin.large}>
-                        <AlertStripe type="advarsel" className={styles.mainComponent__alertstripe}>
-                            {`Søker er ikke folkeregistrert forelder. Vurder om søker har omsorgen for barnet i ${getStringMedPerioder(
-                                listeMedOmsorgsperioder
-                            )}.`}
-                        </AlertStripe>
-                    </Box>
-                )}
-                <NavigationWithDetailView
-                    navigationSection={() => (
-                        <Periodenavigasjon
-                            perioderTilVurdering={omsorgsperioderTilVurdering}
-                            vurdertePerioder={vurderteOmsorgsperioder}
-                            onPeriodeValgt={setValgtPeriode}
-                        />
-                    )}
-                    detailSection={() => {
-                        if (!valgtPeriode) {
-                            return null;
-                        }
-                        if (valgtPeriode.resultat) {
-                            return <OmsorgsperiodeVurderingsdetaljer omsorgsperiode={valgtPeriode} />;
-                        }
-                        return (
-                            <VurderingAvOmsorgsperioderForm
-                                omsorgsperiode={valgtPeriode}
-                                onSubmit={() => console.log(1)}
-                            />
-                        );
-                    }}
-                />
-            </div>
+            <PageContainer isLoading={isLoading} hasError={omsorgsperiodeoversiktHarFeilet}>
+                <div className={styles.mainComponent}>
+                    <Omsorgsperiodeoversikt omsorgsperiodeoversikt={omsorgsperiodeoversikt} />
+                </div>
+            </PageContainer>
         </ContainerContext.Provider>
     );
 };

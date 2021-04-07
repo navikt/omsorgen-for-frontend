@@ -5,7 +5,7 @@ interface Omsorgsperiode {
     periode: Period;
     relasjon: string;
     relasjonsbeskrivelse?: string;
-    resultat?: Vurderingsresultat;
+    resultat: Vurderingsresultat | null;
     begrunnelse?: string;
 }
 

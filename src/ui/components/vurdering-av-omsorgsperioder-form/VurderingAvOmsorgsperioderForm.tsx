@@ -1,7 +1,7 @@
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import Omsorgsperiode from '../../../types/OppgittOmsorgsperiode';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import { Period } from '../../../types/Period';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
