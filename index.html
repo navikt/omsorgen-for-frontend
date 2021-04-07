@@ -14,25 +14,10 @@
             setTimeout(() => {
                 window.renderOmsorgenForApp('app', {
                     readOnly: false,
-                    omsorgsperioder: [
-                        {
-                            begrunnelse: null,
-                            periode: { fom: '2021-03-09', tom: '2021-03-15' },
-                            relasjon: 'Annet',
-                            relasjonsbeskrivelse: 'Tantebarn',
-                            resultat: null,
-                        },
-                        {
-                            begrunnelse: 'heisann hoppsann',
-                            periode: {
-                                fom: '2021-03-01',
-                                tom: '2021-03-05',
-                            },
-                            relasjon: 'Far',
-                            relasjonsbeskrivelse: null,
-                            resultat: 'OPPFYLT',
-                        },
-                    ],
+                    endpoints: {
+                        omsorgsperioder: 'http://localhost:8082/mock/omsorgsperioder'
+                    },
+                    onFinished: () => console.log('Klar til å løse aksjonspunkt')
                 });
             }, 300);
         </script>

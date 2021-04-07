@@ -2,7 +2,7 @@ import React from 'react';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import InteractiveList from '../interactive-list/InteractiveList';
 import VurderingsperiodeElement from '../vurderingsperiode/VurderingsperiodeElement';
-import Omsorgsperiode from '../../../types/OppgittOmsorgsperiode';
+import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import PeriodeSomSkalVurderes from '../periode-som-skal-vurderes/PeriodeSomSkalVurderes';
 import styles from './periodenavigasjon.less';
 

@@ -1,7 +1,10 @@
-import Omsorgsperiode from './OppgittOmsorgsperiode';
+import { HttpErrorHandler } from './HttpErrorHandler';
 
 export interface ContainerContract {
-    omsorgsperioder: Omsorgsperiode[];
+    endpoints: {
+        omsorgsperioder: string;
+    };
     readOnly: boolean;
     onFinished: (vurdering) => void;
+    httpErrorHandler: HttpErrorHandler;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Omsorgsperiode from '../../../types/OppgittOmsorgsperiode';
+import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relajson from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
 import { prettifyPeriod } from '../../../util/formats';
