@@ -25,8 +25,8 @@ export enum FieldName {
 }
 
 enum RadioOptions {
-    JA = 'ja',
-    JA_DELER = 'jaDeler',
+    HELE = 'hele',
+    DELER = 'deler',
     NEI = 'nei',
 }
 
@@ -68,7 +68,7 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
 
         let perioderMedEllerUtenOmsorg;
         let perioderUtenOmsorg = [];
-        if (harSøkerOmsorgenForIPeriode === RadioOptions.JA_DELER) {
+        if (harSøkerOmsorgenForIPeriode === RadioOptions.DELER) {
             perioderMedEllerUtenOmsorg = perioder.map(({ period }) => ({
                 periode: period,
                 resultat: Vurderingsresultat.OPPFYLT,
@@ -90,7 +90,7 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                 {
                     periode: omsorgsperiode.periode,
                     resultat:
-                        harSøkerOmsorgenForIPeriode === RadioOptions.JA
+                        harSøkerOmsorgenForIPeriode === RadioOptions.HELE
                             ? Vurderingsresultat.OPPFYLT
                             : Vurderingsresultat.IKKE_OPPFYLT,
                     relasjon,
@@ -130,14 +130,14 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                         <RadioGroup
                             question="Har søker omsorgen for barnet i denne perioden?"
                             radios={[
-                                { value: RadioOptions.JA, label: 'Ja' },
-                                { value: RadioOptions.JA_DELER, label: 'Ja, i deler av perioden' },
+                                { value: RadioOptions.HELE, label: 'Ja' },
+                                { value: RadioOptions.DELER, label: 'Ja, i deler av perioden' },
                                 { value: RadioOptions.NEI, label: 'Nei' },
                             ]}
                             name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
                         />
                     </Box>
-                    {harSøkerOmsorgenFor === RadioOptions.JA_DELER && (
+                    {harSøkerOmsorgenFor === RadioOptions.DELER && (
                         <Box marginTop={Margin.xLarge}>
                             <PeriodpickerList
                                 name={FieldName.PERIODER}
