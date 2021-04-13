@@ -66,10 +66,9 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
         const { begrunnelse, perioder, harSøkerOmsorgenForIPeriode } = formState;
         const { relasjon, relasjonsbeskrivelse } = omsorgsperiode;
 
-        let perioderMedEllerUtenOmsorg;
-        let perioderUtenOmsorg = [];
+        let vurdertePerioder;
         if (harSøkerOmsorgenForIPeriode === RadioOptions.DELER) {
-            perioderMedEllerUtenOmsorg = perioder.map(({ period }) => ({
+            vurdertePerioder = perioder.map(({ period }) => ({
                 periode: period,
                 resultat: Vurderingsresultat.OPPFYLT,
                 relasjon,
@@ -78,15 +77,16 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
             }));
 
             const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
-            perioderUtenOmsorg = resterendePerioder.map((periode) => ({
+            const perioderUtenOmsorg = resterendePerioder.map((periode) => ({
                 periode,
                 resultat: Vurderingsresultat.IKKE_OPPFYLT,
                 relasjon,
                 relasjonsbeskrivelse,
                 begrunnelse: null, // TODO: skal denne være null?
             }));
+            vurdertePerioder = vurdertePerioder.concat(perioderUtenOmsorg);
         } else {
-            perioderMedEllerUtenOmsorg = [
+            vurdertePerioder = [
                 {
                     periode: omsorgsperiode.periode,
                     resultat:
@@ -99,9 +99,7 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                 },
             ];
         }
-
-        const kombinertePerioder = perioderMedEllerUtenOmsorg.concat(perioderUtenOmsorg);
-        onFinished({ omsorgsperioder: kombinertePerioder });
+        onFinished({ omsorgsperioder: vurdertePerioder });
     };
 
     const perioder = formMethods.watch(FieldName.PERIODER);
