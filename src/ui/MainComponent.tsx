@@ -9,6 +9,7 @@ import PageContainer from './components/page-container/PageContainer';
 import mainComponentReducer from './reducer';
 import styles from './mainComponent.less';
 import ContainerContext from './context/ContainerContext';
+import ActionType from './actionTypes';
 
 interface MainComponentProps {
     data: ContainerContract;
@@ -31,7 +32,7 @@ const MainComponent = ({ data }: MainComponentProps) => {
         });
 
     const handleError = () => {
-        dispatch({ type: 'failed' });
+        dispatch({ type: ActionType.FAILED });
     };
 
     React.useEffect(() => {
@@ -40,7 +41,7 @@ const MainComponent = ({ data }: MainComponentProps) => {
             .then(({ omsorgsperioder }: OmsorgsperioderResponse) => {
                 if (isMounted) {
                     const nyOmsorgsperiodeoversikt = new OmsorgsperiodeoversiktType(omsorgsperioder);
-                    dispatch({ type: 'ok', omsorgsperiodeoversikt: nyOmsorgsperiodeoversikt });
+                    dispatch({ type: ActionType.OK, omsorgsperiodeoversikt: nyOmsorgsperiodeoversikt });
                 }
             })
             .catch(handleError);
