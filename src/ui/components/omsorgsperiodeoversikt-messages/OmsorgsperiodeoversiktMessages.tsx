@@ -2,7 +2,7 @@ import React from 'react';
 import Alertstripe from 'nav-frontend-alertstriper';
 import Omsorgsperiodeoversikt from '../../../types/Omsorgsperiodeoversikt';
 import Box, { Margin } from '../box/Box';
-import styles from '../../mainComponent.less';
+import styles from './omsorgsperiodeoversiktMessages.less';
 import { getStringMedPerioder } from '../../../util/periodUtils';
 
 interface OmsorgsperiodeoversiktMessagesProps {
@@ -14,7 +14,7 @@ const OmsorgsperiodeoversiktMessages = ({ omsorgsperiodeoversikt }: Omsorgsperio
         const perioderTilVurdering = omsorgsperiodeoversikt.finnPerioderTilVurdering().map(({ periode }) => periode);
         return (
             <Box marginBottom={Margin.large}>
-                <Alertstripe type="advarsel" className={styles.mainComponent__alertstripe}>
+                <Alertstripe type="advarsel" className={styles.alertstripe}>
                     {`Søker er ikke folkeregistrert forelder. Vurder om søker har omsorgen for barnet i ${getStringMedPerioder(
                         perioderTilVurdering
                     )}.`}
