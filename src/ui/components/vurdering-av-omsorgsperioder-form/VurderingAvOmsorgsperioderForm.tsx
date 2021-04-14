@@ -135,8 +135,22 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                             <PeriodpickerList
                                 name={FieldName.PERIODER}
                                 legend="I hvilke perioder har søker omsorgen for barnet?"
-                                fromDatepickerProps={{ label: 'Fra', ariaLabel: 'Fra' }}
-                                toDatepickerProps={{ label: 'Til', ariaLabel: 'Til' }}
+                                fromDatepickerProps={{
+                                    label: 'Fra',
+                                    ariaLabel: 'Fra',
+                                    limitations: {
+                                        minDate: omsorgsperiode.periode.fom,
+                                        maxDate: omsorgsperiode.periode.tom,
+                                    },
+                                }}
+                                toDatepickerProps={{
+                                    label: 'Til',
+                                    ariaLabel: 'Til',
+                                    limitations: {
+                                        minDate: omsorgsperiode.periode.fom,
+                                        maxDate: omsorgsperiode.periode.tom,
+                                    },
+                                }}
                                 defaultValues={[new Period(omsorgsperiode.periode.fom, omsorgsperiode.periode.tom)]}
                                 renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => {
                                     return (
