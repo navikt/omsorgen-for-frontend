@@ -64,8 +64,6 @@ const VurderingAvOmsorgsperioderForm = ({
         defaultValues: {
             [FieldName.PERIODER]: [{ period: omsorgsperiode.periode }],
             [FieldName.BEGRUNNELSE]: omsorgsperiode.begrunnelse || '',
-            [FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE]:
-                omsorgsperiode.hentResultat() === Vurderingsresultat.OPPFYLT ? RadioOptions.JA : RadioOptions.NEI,
         },
     });
 
