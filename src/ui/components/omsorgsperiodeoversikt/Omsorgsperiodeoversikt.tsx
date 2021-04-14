@@ -13,9 +13,15 @@ interface OmsorgsperiodeoversiktProps {
 
 const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: OmsorgsperiodeoversiktProps) => {
     const [valgtPeriode, setValgtPeriode] = React.useState<Omsorgsperiode>(null);
+    const [erRedigeringsmodus, setErRedigeringsmodus] = React.useState(false);
 
     const perioderTilVurdering = omsorgsperiodeoversikt.finnPerioderTilVurdering();
     const vurderteOmsorgsperioder = omsorgsperiodeoversikt.finnVurdertePerioder();
+
+    const velgPeriode = (periode: Omsorgsperiode) => {
+        setValgtPeriode(periode);
+        setErRedigeringsmodus(false);
+    };
 
     return (
         <>
@@ -25,20 +31,27 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
                     <Periodenavigasjon
                         perioderTilVurdering={perioderTilVurdering}
                         vurdertePerioder={vurderteOmsorgsperioder}
-                        onPeriodeValgt={setValgtPeriode}
+                        onPeriodeValgt={velgPeriode}
                     />
                 )}
                 detailSection={() => {
                     if (!valgtPeriode) {
                         return null;
                     }
-                    if (vurderteOmsorgsperioder.includes(valgtPeriode)) {
-                        return <OmsorgsperiodeVurderingsdetaljer omsorgsperiode={valgtPeriode} />;
+                    if (perioderTilVurdering.includes(valgtPeriode) || erRedigeringsmodus) {
+                        return (
+                            <VurderingAvOmsorgsperioderForm
+                                omsorgsperiode={valgtPeriode}
+                                onSubmit={() => console.log('asdf')}
+                                onAvbryt={() => velgPeriode(null)}
+                            />
+                        );
                     }
                     return (
-                        <VurderingAvOmsorgsperioderForm
+                        <OmsorgsperiodeVurderingsdetaljer
                             omsorgsperiode={valgtPeriode}
-                            onSubmit={() => console.log('asdf')}
+                            onEditClick={() => setErRedigeringsmodus(true)}
+                            registrertForeldrerelasjon={omsorgsperiodeoversikt.registrertForeldrerelasjon}
                         />
                     );
                 }}

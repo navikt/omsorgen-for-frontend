@@ -45,6 +45,7 @@ const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurderi
 interface VurderingAvOmsorgsperioderFormProps {
     omsorgsperiode: Omsorgsperiode;
     onSubmit: () => void;
+    onAvbryt: () => void;
 }
 
 interface VurderingAvOmsorgsperioderFormState {
@@ -53,12 +54,18 @@ interface VurderingAvOmsorgsperioderFormState {
     [FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE]: RadioOptions;
 }
 
-const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
+const VurderingAvOmsorgsperioderForm = ({
+    omsorgsperiode,
+    onAvbryt,
+}: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
     const { onFinished } = React.useContext(ContainerContext);
 
     const formMethods = useForm({
         defaultValues: {
             [FieldName.PERIODER]: [{ period: omsorgsperiode.periode }],
+            [FieldName.BEGRUNNELSE]: omsorgsperiode.begrunnelse || '',
+            [FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE]:
+                omsorgsperiode.hentResultat() === Vurderingsresultat.OPPFYLT ? RadioOptions.JA : RadioOptions.NEI,
         },
     });
 
@@ -112,7 +119,11 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                         <LabelledContent label="Beskrivelse fra søker" content={omsorgsperiode.relasjonsbeskrivelse} />
                     </Box>
                 )}
-                <Form onSubmit={formMethods.handleSubmit(handleSubmit)} buttonLabel="Bekreft og fortsett">
+                <Form
+                    onSubmit={formMethods.handleSubmit(handleSubmit)}
+                    buttonLabel="Bekreft og fortsett"
+                    onAvbryt={onAvbryt}
+                >
                     <Box marginTop={Margin.xLarge}>
                         <TextArea
                             label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."

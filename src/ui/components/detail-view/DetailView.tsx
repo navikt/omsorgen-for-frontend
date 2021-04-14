@@ -5,11 +5,17 @@ import styles from './detailView.less';
 interface DetailViewProps {
     title: string;
     children: React.ReactNode;
+    contentAfterTitleRenderer?: () => React.ReactNode;
 }
 
-const DetailView = ({ title, children }: DetailViewProps) => (
+const DetailView = ({ title, children, contentAfterTitleRenderer }: DetailViewProps) => (
     <div className={styles.detailView}>
-        <TitleWithUnderline>{title}</TitleWithUnderline>
+        <div className={styles.detailView__titleContainer}>
+            <TitleWithUnderline>{title}</TitleWithUnderline>
+            {contentAfterTitleRenderer && (
+                <div className={styles.detailView__nextToTitle}>{contentAfterTitleRenderer()}</div>
+            )}
+        </div>
         {children}
     </div>
 );

@@ -12,7 +12,7 @@ const omsorgsperioder: Omsorgsperiode[] = [
         resultatEtterAutomatikk: Vurderingsresultat.IKKE_VURDERT,
     }),
     new Omsorgsperiode({
-        begrunnelse: null,
+        begrunnelse: '',
         periode: new Period('2021-03-09', '2021-03-15'),
         relasjon: 'Annet',
         relasjonsbeskrivelse: 'Tantebarn',

@@ -6,14 +6,36 @@ import { prettifyPeriod } from '../../../util/formats';
 import Box, { Margin } from '../box/Box';
 import DetailView from '../detail-view/DetailView';
 import LabelledContent from '../labelled-content/LabelledContent';
+import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
+import LinkButton from '../link-button/LinkButton';
+import styles from './omsorgsperiodeVurderingsdetaljer.less';
 
 interface OmsorgsperiodeVurderingsdetaljerProps {
     omsorgsperiode: Omsorgsperiode;
+    onEditClick: () => void;
+    registrertForeldrerelasjon: boolean;
 }
 
-const OmsorgsperiodeVurderingsdetaljer = ({ omsorgsperiode }: OmsorgsperiodeVurderingsdetaljerProps) => {
+const OmsorgsperiodeVurderingsdetaljer = ({
+    omsorgsperiode,
+    onEditClick,
+    registrertForeldrerelasjon,
+}: OmsorgsperiodeVurderingsdetaljerProps) => {
+    const begrunnelse =
+        omsorgsperiode.begrunnelse || registrertForeldrerelasjon ? 'Søker er folkeregistrert forelder' : '';
     return (
-        <DetailView title="Vurdering av omsorg">
+        <DetailView
+            title="Vurdering av omsorg"
+            contentAfterTitleRenderer={() => (
+                <WriteAccessBoundContent
+                    contentRenderer={() => (
+                        <LinkButton className={styles.endreLink} onClick={onEditClick}>
+                            Rediger vurdering
+                        </LinkButton>
+                    )}
+                />
+            )}
+        >
             <Box marginTop={Margin.xLarge}>
                 <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
             </Box>
@@ -25,7 +47,7 @@ const OmsorgsperiodeVurderingsdetaljer = ({ omsorgsperiode }: OmsorgsperiodeVurd
             <Box marginTop={Margin.xLarge}>
                 <LabelledContent
                     label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
-                    content={omsorgsperiode.begrunnelse}
+                    content={begrunnelse}
                 />
             </Box>
             <Box marginTop={Margin.xLarge}>
