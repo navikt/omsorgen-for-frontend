@@ -1,25 +1,38 @@
 import Omsorgsperiode from './Omsorgsperiode';
 import Vurderingsresultat from './Vurderingsresultat';
+import OmsorgsperioderResponse from './OmsorgsperioderResponse';
 
 class Omsorgsperiodeoversikt {
     perioder: Omsorgsperiode[];
 
-    constructor(perioder: Omsorgsperiode[]) {
-        this.perioder = perioder;
+    registrertSammeBosted: boolean;
+
+    registrertForeldrerelasjon: boolean;
+
+    tvingManuellVurdering: boolean;
+
+    constructor({
+        tvingManuellVurdering,
+        omsorgsperioder,
+        registrertForeldrerelasjon,
+        registrertSammeBosted,
+    }: OmsorgsperioderResponse) {
+        this.perioder = omsorgsperioder.map((omsorgsperiode) => new Omsorgsperiode(omsorgsperiode));
+        this.tvingManuellVurdering = tvingManuellVurdering;
+        this.registrertForeldrerelasjon = registrertForeldrerelasjon;
+        this.registrertSammeBosted = registrertSammeBosted;
     }
 
     harPerioderTilVurdering() {
-        return this.perioder.some(({ resultat }) => resultat === null);
+        return this.perioder.some(({ resultat }) => resultat === Vurderingsresultat.IKKE_VURDERT);
     }
 
     finnVurdertePerioder() {
-        return this.perioder.filter(
-            ({ resultat }) => resultat === Vurderingsresultat.OPPFYLT || resultat === Vurderingsresultat.IKKE_OPPFYLT
-        );
+        return this.perioder.filter((omsorgsperiode) => omsorgsperiode.erVurdert());
     }
 
     finnPerioderTilVurdering() {
-        return this.perioder.filter(({ resultat }) => resultat === null);
+        return this.perioder.filter((omsorgsperiode) => omsorgsperiode.manglerVurdering());
     }
 }
 

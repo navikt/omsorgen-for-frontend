@@ -37,9 +37,9 @@ const MainComponent = ({ data }: MainComponentProps) => {
     React.useEffect(() => {
         let isMounted = true;
         getOmsorgsperioder()
-            .then(({ omsorgsperioder }: OmsorgsperioderResponse) => {
+            .then((response: OmsorgsperioderResponse) => {
                 if (isMounted) {
-                    const nyOmsorgsperiodeoversikt = new OmsorgsperiodeoversiktType(omsorgsperioder);
+                    const nyOmsorgsperiodeoversikt = new OmsorgsperiodeoversiktType(response);
                     dispatch({ type: 'ok', omsorgsperiodeoversikt: nyOmsorgsperiodeoversikt });
                 }
             })

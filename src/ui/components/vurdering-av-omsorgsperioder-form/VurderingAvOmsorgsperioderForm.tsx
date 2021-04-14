@@ -5,7 +5,6 @@ import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import { Period } from '../../../types/Period';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
-import { getPeriodDifference } from '../../../util/dateUtils';
 import { prettifyPeriod } from '../../../util/formats';
 import ContainerContext from '../../context/ContainerContext';
 import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
@@ -17,6 +16,7 @@ import DeleteButton from '../delete-button/DeleteButton';
 import DetailView from '../detail-view/DetailView';
 import Form from '../form/Form';
 import LabelledContent from '../labelled-content/LabelledContent';
+import periodDifference from '../../../periodDifference';
 
 export enum FieldName {
     BEGRUNNELSE = 'begrunnelse',
@@ -37,7 +37,7 @@ interface FormPeriod {
 const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurdering: Period) => {
     const formatertePerioderFraForm = perioderFraForm.map((periode) => periode.period);
     const resterendePerioder =
-        formatertePerioderFraForm.length > 0 && getPeriodDifference(periodeTilVurdering, formatertePerioderFraForm);
+        formatertePerioderFraForm.length > 0 && periodDifference([periodeTilVurdering], formatertePerioderFraForm);
 
     return resterendePerioder;
 };
@@ -64,16 +64,12 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
 
     const handleSubmit = (formState: VurderingAvOmsorgsperioderFormState) => {
         const { begrunnelse, perioder, harSøkerOmsorgenForIPeriode } = formState;
-        const { relasjon, relasjonsbeskrivelse } = omsorgsperiode;
-
         let perioderMedEllerUtenOmsorg;
         let perioderUtenOmsorg = [];
         if (harSøkerOmsorgenForIPeriode === RadioOptions.JA_DELER) {
             perioderMedEllerUtenOmsorg = perioder.map(({ period }) => ({
                 periode: period,
                 resultat: Vurderingsresultat.OPPFYLT,
-                relasjon,
-                relasjonsbeskrivelse,
                 begrunnelse,
             }));
 
@@ -81,9 +77,7 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
             perioderUtenOmsorg = resterendePerioder.map((periode) => ({
                 periode,
                 resultat: Vurderingsresultat.IKKE_OPPFYLT,
-                relasjon,
-                relasjonsbeskrivelse,
-                begrunnelse: null, // TODO: skal denne være null?
+                begrunnelse,
             }));
         } else {
             perioderMedEllerUtenOmsorg = [
@@ -93,14 +87,13 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                         harSøkerOmsorgenForIPeriode === RadioOptions.JA
                             ? Vurderingsresultat.OPPFYLT
                             : Vurderingsresultat.IKKE_OPPFYLT,
-                    relasjon,
-                    relasjonsbeskrivelse,
                     begrunnelse,
                 },
             ];
         }
 
         const kombinertePerioder = perioderMedEllerUtenOmsorg.concat(perioderUtenOmsorg);
+        console.log(kombinertePerioder);
         onFinished({ omsorgsperioder: kombinertePerioder });
     };
 

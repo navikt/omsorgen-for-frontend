@@ -19,8 +19,9 @@ const Periodenavigasjon = ({
 }: PeriodenavigasjonProps): JSX.Element => {
     const [activeIndex, setActiveIndex] = React.useState(-1);
 
-    const vurdertePerioderElements = vurdertePerioder.map(({ periode, resultat }) => {
-        return <VurderingsperiodeElement periode={periode} resultat={resultat} />;
+    const vurdertePerioderElements = vurdertePerioder.map((omsorgsperiode) => {
+        const { periode } = omsorgsperiode;
+        return <VurderingsperiodeElement periode={periode} resultat={omsorgsperiode.hentResultat()} />;
     });
 
     const periodeTilVurderingElements = perioderTilVurdering.map(({ periode }) => {

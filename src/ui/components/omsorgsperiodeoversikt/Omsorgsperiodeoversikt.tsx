@@ -32,11 +32,14 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
                     if (!valgtPeriode) {
                         return null;
                     }
-                    if (valgtPeriode.resultat) {
+                    if (vurderteOmsorgsperioder.includes(valgtPeriode)) {
                         return <OmsorgsperiodeVurderingsdetaljer omsorgsperiode={valgtPeriode} />;
                     }
                     return (
-                        <VurderingAvOmsorgsperioderForm omsorgsperiode={valgtPeriode} onSubmit={() => console.log(1)} />
+                        <VurderingAvOmsorgsperioderForm
+                            omsorgsperiode={valgtPeriode}
+                            onSubmit={() => console.log('asdf')}
+                        />
                     );
                 }}
             />
