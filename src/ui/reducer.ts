@@ -1,4 +1,5 @@
 import Omsorgsperiodeoversikt from '../types/Omsorgsperiodeoversikt';
+import ActionType from './actionTypes';
 
 interface MainComponentState {
     omsorgsperiodeoversikt: Omsorgsperiodeoversikt;
@@ -7,25 +8,25 @@ interface MainComponentState {
 }
 
 interface Action {
-    type: 'ok' | 'failed' | 'pending';
+    type: ActionType;
     omsorgsperiodeoversikt?: Omsorgsperiodeoversikt;
 }
 
 const mainComponentReducer = (state: MainComponentState, action: Action): Partial<MainComponentState> => {
     switch (action.type) {
-        case 'ok':
+        case ActionType.OK:
             return {
                 omsorgsperiodeoversikt: action.omsorgsperiodeoversikt,
                 omsorgsperiodeoversiktHarFeilet: false,
                 isLoading: false,
             };
-        case 'failed':
+        case ActionType.FAILED:
             return {
                 omsorgsperiodeoversikt: null,
                 omsorgsperiodeoversiktHarFeilet: true,
                 isLoading: false,
             };
-        case 'pending':
+        case ActionType.PENDING:
             return {
                 omsorgsperiodeoversikt: null,
                 omsorgsperiodeoversiktHarFeilet: false,

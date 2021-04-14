@@ -25,8 +25,8 @@ export enum FieldName {
 }
 
 enum RadioOptions {
-    JA = 'ja',
-    JA_DELER = 'jaDeler',
+    HELE = 'hele',
+    DELER = 'deler',
     NEI = 'nei',
 }
 
@@ -69,27 +69,28 @@ const VurderingAvOmsorgsperioderForm = ({
 
     const handleSubmit = (formState: VurderingAvOmsorgsperioderFormState) => {
         const { begrunnelse, perioder, harSøkerOmsorgenForIPeriode } = formState;
-        let perioderMedEllerUtenOmsorg;
-        let perioderUtenOmsorg = [];
-        if (harSøkerOmsorgenForIPeriode === RadioOptions.JA_DELER) {
-            perioderMedEllerUtenOmsorg = perioder.map(({ period }) => ({
+
+        let vurdertePerioder;
+        if (harSøkerOmsorgenForIPeriode === RadioOptions.DELER) {
+            vurdertePerioder = perioder.map(({ period }) => ({
                 periode: period,
                 resultat: Vurderingsresultat.OPPFYLT,
                 begrunnelse,
             }));
 
             const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
-            perioderUtenOmsorg = resterendePerioder.map((periode) => ({
+            const perioderUtenOmsorg = resterendePerioder.map((periode) => ({
                 periode,
                 resultat: Vurderingsresultat.IKKE_OPPFYLT,
                 begrunnelse,
             }));
+            vurdertePerioder = vurdertePerioder.concat(perioderUtenOmsorg);
         } else {
-            perioderMedEllerUtenOmsorg = [
+            vurdertePerioder = [
                 {
                     periode: omsorgsperiode.periode,
                     resultat:
-                        harSøkerOmsorgenForIPeriode === RadioOptions.JA
+                        harSøkerOmsorgenForIPeriode === RadioOptions.HELE
                             ? Vurderingsresultat.OPPFYLT
                             : Vurderingsresultat.IKKE_OPPFYLT,
                     begrunnelse,
@@ -97,9 +98,8 @@ const VurderingAvOmsorgsperioderForm = ({
             ];
         }
 
-        const kombinertePerioder = perioderMedEllerUtenOmsorg.concat(perioderUtenOmsorg);
-        console.log(kombinertePerioder);
-        onFinished({ omsorgsperioder: kombinertePerioder });
+        console.log(vurdertePerioder);
+        onFinished({ omsorgsperioder: vurdertePerioder });
     };
 
     const perioder = formMethods.watch(FieldName.PERIODER);
@@ -132,14 +132,14 @@ const VurderingAvOmsorgsperioderForm = ({
                         <RadioGroup
                             question="Har søker omsorgen for barnet i denne perioden?"
                             radios={[
-                                { value: RadioOptions.JA, label: 'Ja' },
-                                { value: RadioOptions.JA_DELER, label: 'Ja, i deler av perioden' },
+                                { value: RadioOptions.HELE, label: 'Ja' },
+                                { value: RadioOptions.DELER, label: 'Ja, i deler av perioden' },
                                 { value: RadioOptions.NEI, label: 'Nei' },
                             ]}
                             name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
                         />
                     </Box>
-                    {harSøkerOmsorgenFor === RadioOptions.JA_DELER && (
+                    {harSøkerOmsorgenFor === RadioOptions.DELER && (
                         <Box marginTop={Margin.xLarge}>
                             <PeriodpickerList
                                 name={FieldName.PERIODER}

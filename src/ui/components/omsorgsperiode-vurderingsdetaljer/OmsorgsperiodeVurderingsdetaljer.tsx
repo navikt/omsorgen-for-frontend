@@ -21,8 +21,32 @@ const OmsorgsperiodeVurderingsdetaljer = ({
     onEditClick,
     registrertForeldrerelasjon,
 }: OmsorgsperiodeVurderingsdetaljerProps) => {
-    const begrunnelse =
-        omsorgsperiode.begrunnelse || registrertForeldrerelasjon ? 'Søker er folkeregistrert forelder' : '';
+    const begrunnelseRenderer = () => {
+        let label = 'Vurder om søker har omsorgen for barnet etter § 9-10, første ledd.';
+        let begrunnelse = '';
+        if (omsorgsperiode.erManueltVurdert()) {
+            begrunnelse = omsorgsperiode.begrunnelse;
+        } else if (omsorgsperiode.erAutomatiskVurdert()) {
+            if (registrertForeldrerelasjon) {
+                begrunnelse = 'Søker er folkeregistrert forelder';
+            } else {
+                begrunnelse = 'Søker er ikke folkeregistrert forelder';
+            }
+            label = 'Automatisk vurdert';
+        }
+        return <LabelledContent label={label} content={begrunnelse} />;
+    };
+
+    const resultatRenderer = () => {
+        if (omsorgsperiode.erOppfylt()) {
+            return 'Ja';
+        }
+        if (omsorgsperiode.erIkkeOppfylt()) {
+            return 'Nei';
+        }
+        return null;
+    };
+
     return (
         <DetailView
             title="Vurdering av omsorg"
@@ -36,31 +60,27 @@ const OmsorgsperiodeVurderingsdetaljer = ({
                 />
             )}
         >
-            <Box marginTop={Margin.xLarge}>
-                <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
-            </Box>
-            {omsorgsperiode.relasjon === Relajson.ANNET && (
-                <Box marginTop={Margin.xLarge}>
-                    <LabelledContent label="Beskrivelse fra søker" content={omsorgsperiode.relasjonsbeskrivelse} />
-                </Box>
+            {omsorgsperiode.erManueltVurdert() && (
+                <>
+                    <Box marginTop={Margin.xLarge}>
+                        <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
+                    </Box>
+                    {omsorgsperiode.relasjon === Relajson.ANNET && (
+                        <Box marginTop={Margin.xLarge}>
+                            <LabelledContent
+                                label="Beskrivelse fra søker"
+                                content={omsorgsperiode.relasjonsbeskrivelse}
+                            />
+                        </Box>
+                    )}
+                </>
             )}
+            <Box marginTop={Margin.xLarge}>{begrunnelseRenderer()}</Box>
             <Box marginTop={Margin.xLarge}>
-                <LabelledContent
-                    label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
-                    content={begrunnelse}
-                />
+                <LabelledContent label="Har søker omsorgen for barnet i denne perioden?" content={resultatRenderer()} />
             </Box>
             <Box marginTop={Margin.xLarge}>
-                <LabelledContent
-                    label="Har søker omsorgen for barnet i denne perioden?"
-                    content={omsorgsperiode.resultat === Vurderingsresultat.OPPFYLT ? 'Ja' : 'Nei'}
-                />
-            </Box>
-            <Box marginTop={Margin.xLarge}>
-                <LabelledContent
-                    label="I hvilken periode har søker omsorgen for barnet?"
-                    content={prettifyPeriod(omsorgsperiode.periode)}
-                />
+                <LabelledContent label="Perioder" content={prettifyPeriod(omsorgsperiode.periode)} />
             </Box>
         </DetailView>
     );

@@ -30,13 +30,32 @@ class Omsorgsperiode {
         this.relasjon = relasjon;
     }
 
-    erVurdert() {
+    erOppfylt() {
         return (
-            this.resultat === Vurderingsresultat.OPPFYLT ||
+            this.resultat === Vurderingsresultat.OPPFYLT || this.resultatEtterAutomatikk === Vurderingsresultat.OPPFYLT
+        );
+    }
+
+    erIkkeOppfylt() {
+        return (
             this.resultat === Vurderingsresultat.IKKE_OPPFYLT ||
+            this.resultatEtterAutomatikk === Vurderingsresultat.IKKE_OPPFYLT
+        );
+    }
+
+    erAutomatiskVurdert() {
+        return (
             this.resultatEtterAutomatikk === Vurderingsresultat.OPPFYLT ||
             this.resultatEtterAutomatikk === Vurderingsresultat.IKKE_OPPFYLT
         );
+    }
+
+    erManueltVurdert() {
+        return this.resultat === Vurderingsresultat.OPPFYLT || this.resultat === Vurderingsresultat.IKKE_OPPFYLT;
+    }
+
+    erVurdert() {
+        return this.erManueltVurdert() || this.erAutomatiskVurdert();
     }
 
     manglerVurdering() {
