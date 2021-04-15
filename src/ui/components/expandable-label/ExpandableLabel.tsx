@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Collapse } from 'react-collapse';
-import ChevronIcon from '../icons/ChevronIcon';
+import ChevronIconBlue from '../icons/ChevronIconBlue';
 import styles from './expandableLabel.less';
 
 interface HelptextProps {
@@ -32,7 +32,7 @@ const ExpandableLabel = ({ helptext, labelText, labelFor }: HelptextProps): JSX.
                             : styles.expandableLabel__chevron
                     }
                 >
-                    <ChevronIcon />
+                    <ChevronIconBlue />
                 </span>
             </button>
         </div>
