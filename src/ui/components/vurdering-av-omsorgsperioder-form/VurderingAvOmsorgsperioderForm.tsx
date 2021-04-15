@@ -99,7 +99,7 @@ const VurderingAvOmsorgsperioderForm = ({
         }
 
         console.log(vurdertePerioder);
-        onFinished({ omsorgsperioder: vurdertePerioder });
+        onFinished(vurdertePerioder);
     };
 
     const perioder = formMethods.watch(FieldName.PERIODER);
