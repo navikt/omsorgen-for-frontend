@@ -24,7 +24,7 @@ class Omsorgsperiodeoversikt {
     }
 
     harPerioderTilVurdering() {
-        return this.perioder.some(({ resultat }) => resultat === Vurderingsresultat.IKKE_VURDERT);
+        return this.perioder.some((omsorgspeiode) => omsorgspeiode.manglerVurdering());
     }
 
     finnVurdertePerioder() {
