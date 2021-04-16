@@ -13,7 +13,12 @@ app.use(
 );
 
 app.use('/mock/omsorgsperioder', (req, res) => {
-    res.send({ omsorgsperioder: mockedOmsorgsperioder });
+    res.send({
+        omsorgsperioder: mockedOmsorgsperioder,
+        registrertSammeBosted: true,
+        registrertForeldrerelasjon: true,
+        tvingManuellVurdering: false,
+    });
 });
 
 const port = 8082;

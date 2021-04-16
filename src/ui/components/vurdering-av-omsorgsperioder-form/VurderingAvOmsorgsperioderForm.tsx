@@ -5,7 +5,6 @@ import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import { Period } from '../../../types/Period';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
-import { getPeriodDifference } from '../../../util/dateUtils';
 import { prettifyPeriod } from '../../../util/formats';
 import ContainerContext from '../../context/ContainerContext';
 import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
@@ -17,6 +16,7 @@ import DeleteButton from '../delete-button/DeleteButton';
 import DetailView from '../detail-view/DetailView';
 import Form from '../form/Form';
 import LabelledContent from '../labelled-content/LabelledContent';
+import periodDifference from '../../../periodDifference';
 
 export enum FieldName {
     BEGRUNNELSE = 'begrunnelse',
@@ -37,14 +37,14 @@ interface FormPeriod {
 const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurdering: Period) => {
     const formatertePerioderFraForm = perioderFraForm.map((periode) => periode.period);
     const resterendePerioder =
-        formatertePerioderFraForm.length > 0 && getPeriodDifference(periodeTilVurdering, formatertePerioderFraForm);
+        formatertePerioderFraForm.length > 0 && periodDifference([periodeTilVurdering], formatertePerioderFraForm);
 
     return resterendePerioder;
 };
 
 interface VurderingAvOmsorgsperioderFormProps {
     omsorgsperiode: Omsorgsperiode;
-    onSubmit: () => void;
+    onAvbryt: () => void;
 }
 
 interface VurderingAvOmsorgsperioderFormState {
@@ -53,26 +53,27 @@ interface VurderingAvOmsorgsperioderFormState {
     [FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE]: RadioOptions;
 }
 
-const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
+const VurderingAvOmsorgsperioderForm = ({
+    omsorgsperiode,
+    onAvbryt,
+}: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
     const { onFinished } = React.useContext(ContainerContext);
 
     const formMethods = useForm({
         defaultValues: {
             [FieldName.PERIODER]: [{ period: omsorgsperiode.periode }],
+            [FieldName.BEGRUNNELSE]: omsorgsperiode.begrunnelse || '',
         },
     });
 
     const handleSubmit = (formState: VurderingAvOmsorgsperioderFormState) => {
         const { begrunnelse, perioder, harSøkerOmsorgenForIPeriode } = formState;
-        const { relasjon, relasjonsbeskrivelse } = omsorgsperiode;
 
         let vurdertePerioder;
         if (harSøkerOmsorgenForIPeriode === RadioOptions.DELER) {
             vurdertePerioder = perioder.map(({ period }) => ({
                 periode: period,
                 resultat: Vurderingsresultat.OPPFYLT,
-                relasjon,
-                relasjonsbeskrivelse,
                 begrunnelse,
             }));
 
@@ -80,9 +81,7 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
             const perioderUtenOmsorg = resterendePerioder.map((periode) => ({
                 periode,
                 resultat: Vurderingsresultat.IKKE_OPPFYLT,
-                relasjon,
-                relasjonsbeskrivelse,
-                begrunnelse: null, // TODO: skal denne være null?
+                begrunnelse,
             }));
             vurdertePerioder = vurdertePerioder.concat(perioderUtenOmsorg);
         } else {
@@ -93,13 +92,11 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                         harSøkerOmsorgenForIPeriode === RadioOptions.HELE
                             ? Vurderingsresultat.OPPFYLT
                             : Vurderingsresultat.IKKE_OPPFYLT,
-                    relasjon,
-                    relasjonsbeskrivelse,
                     begrunnelse,
                 },
             ];
         }
-        onFinished({ omsorgsperioder: vurdertePerioder });
+        onFinished(vurdertePerioder);
     };
 
     const perioder = formMethods.watch(FieldName.PERIODER);
@@ -117,7 +114,11 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                         <LabelledContent label="Beskrivelse fra søker" content={omsorgsperiode.relasjonsbeskrivelse} />
                     </Box>
                 )}
-                <Form onSubmit={formMethods.handleSubmit(handleSubmit)} buttonLabel="Bekreft og fortsett">
+                <Form
+                    onSubmit={formMethods.handleSubmit(handleSubmit)}
+                    buttonLabel="Bekreft og fortsett"
+                    onAvbryt={onAvbryt}
+                >
                     <Box marginTop={Margin.xLarge}>
                         <TextArea
                             label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
@@ -140,8 +141,22 @@ const VurderingAvOmsorgsperioderForm = ({ omsorgsperiode }: VurderingAvOmsorgspe
                             <PeriodpickerList
                                 name={FieldName.PERIODER}
                                 legend="I hvilke perioder har søker omsorgen for barnet?"
-                                fromDatepickerProps={{ label: 'Fra', ariaLabel: 'Fra' }}
-                                toDatepickerProps={{ label: 'Til', ariaLabel: 'Til' }}
+                                fromDatepickerProps={{
+                                    label: 'Fra',
+                                    ariaLabel: 'Fra',
+                                    limitations: {
+                                        minDate: omsorgsperiode.periode.fom,
+                                        maxDate: omsorgsperiode.periode.tom,
+                                    },
+                                }}
+                                toDatepickerProps={{
+                                    label: 'Til',
+                                    ariaLabel: 'Til',
+                                    limitations: {
+                                        minDate: omsorgsperiode.periode.fom,
+                                        maxDate: omsorgsperiode.periode.tom,
+                                    },
+                                }}
                                 defaultValues={[new Period(omsorgsperiode.periode.fom, omsorgsperiode.periode.tom)]}
                                 renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => {
                                     return (

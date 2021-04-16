@@ -5,6 +5,8 @@ import VurderingsperiodeElement from '../vurderingsperiode/VurderingsperiodeElem
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import PeriodeSomSkalVurderes from '../periode-som-skal-vurderes/PeriodeSomSkalVurderes';
 import styles from './periodenavigasjon.less';
+import { sortPeriodsByFomDate } from '../../../util/periodUtils';
+import { Period } from '../../../types/Period';
 
 interface PeriodenavigasjonProps {
     perioderTilVurdering: Omsorgsperiode[];
@@ -19,9 +21,16 @@ const Periodenavigasjon = ({
 }: PeriodenavigasjonProps): JSX.Element => {
     const [activeIndex, setActiveIndex] = React.useState(-1);
 
-    const vurdertePerioderElements = vurdertePerioder.map(({ periode, resultat }) => {
-        return <VurderingsperiodeElement periode={periode} resultat={resultat} />;
-    });
+    const vurdertePerioderElements = vurdertePerioder
+        .sort((op1, op2) => {
+            const omsorgsperiode1 = new Period(op1.periode.fom, op1.periode.tom);
+            const omsorgsperiode2 = new Period(op2.periode.fom, op2.periode.tom);
+            return sortPeriodsByFomDate(omsorgsperiode1, omsorgsperiode2);
+        })
+        .map((omsorgsperiode) => {
+            const { periode } = omsorgsperiode;
+            return <VurderingsperiodeElement periode={periode} resultat={omsorgsperiode.hentResultat()} />;
+        });
 
     const periodeTilVurderingElements = perioderTilVurdering.map(({ periode }) => {
         return <PeriodeSomSkalVurderes periode={periode} />;
@@ -33,11 +42,10 @@ const Periodenavigasjon = ({
 
     return (
         <div className={styles.vurderingsnavigasjon}>
-            <Undertittel>Alle perioder</Undertittel>
             {antallPerioder === 0 && <p>Ingen vurderinger å vise</p>}
             {antallPerioder > 0 && (
                 <div className={styles.vurderingsvelgerContainer}>
-                    <Element>Periode</Element>
+                    <Element className={styles.vurderingsvelgerContainer__periode}>Periode</Element>
                     <InteractiveList
                         elements={elements.map((element, currentIndex) => ({
                             content: element,
