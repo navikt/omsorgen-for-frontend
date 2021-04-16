@@ -5,6 +5,8 @@ import VurderingsperiodeElement from '../vurderingsperiode/VurderingsperiodeElem
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import PeriodeSomSkalVurderes from '../periode-som-skal-vurderes/PeriodeSomSkalVurderes';
 import styles from './periodenavigasjon.less';
+import { sortPeriodsByFomDate } from '../../../util/periodUtils';
+import { Period } from '../../../types/Period';
 
 interface PeriodenavigasjonProps {
     perioderTilVurdering: Omsorgsperiode[];
@@ -19,10 +21,16 @@ const Periodenavigasjon = ({
 }: PeriodenavigasjonProps): JSX.Element => {
     const [activeIndex, setActiveIndex] = React.useState(-1);
 
-    const vurdertePerioderElements = vurdertePerioder.map((omsorgsperiode) => {
-        const { periode } = omsorgsperiode;
-        return <VurderingsperiodeElement periode={periode} resultat={omsorgsperiode.hentResultat()} />;
-    });
+    const vurdertePerioderElements = vurdertePerioder
+        .sort((op1, op2) => {
+            const omsorgsperiode1 = new Period(op1.periode.fom, op1.periode.tom);
+            const omsorgsperiode2 = new Period(op2.periode.fom, op2.periode.tom);
+            return sortPeriodsByFomDate(omsorgsperiode1, omsorgsperiode2);
+        })
+        .map((omsorgsperiode) => {
+            const { periode } = omsorgsperiode;
+            return <VurderingsperiodeElement periode={periode} resultat={omsorgsperiode.hentResultat()} />;
+        });
 
     const periodeTilVurderingElements = perioderTilVurdering.map(({ periode }) => {
         return <PeriodeSomSkalVurderes periode={periode} />;
