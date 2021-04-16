@@ -34,7 +34,6 @@ const Periodenavigasjon = ({
 
     return (
         <div className={styles.vurderingsnavigasjon}>
-            <Undertittel className={styles.vurderingsnavigasjon__heading}>Alle perioder</Undertittel>
             {antallPerioder === 0 && <p>Ingen vurderinger å vise</p>}
             {antallPerioder > 0 && (
                 <div className={styles.vurderingsvelgerContainer}>

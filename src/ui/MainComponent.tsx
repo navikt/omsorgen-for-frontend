@@ -10,6 +10,7 @@ import mainComponentReducer from './reducer';
 import styles from './mainComponent.less';
 import ContainerContext from './context/ContainerContext';
 import ActionType from './actionTypes';
+import Box, { Margin } from './components/box/Box';
 
 interface MainComponentProps {
     data: ContainerContract;
@@ -53,11 +54,14 @@ const MainComponent = ({ data }: MainComponentProps) => {
 
     return (
         <ContainerContext.Provider value={data}>
-            <PageContainer isLoading={isLoading} hasError={omsorgsperiodeoversiktHarFeilet}>
-                <div className={styles.mainComponent}>
-                    <Omsorgsperiodeoversikt omsorgsperiodeoversikt={omsorgsperiodeoversikt} />
-                </div>
-            </PageContainer>
+            <h1 style={{ fontSize: 22 }}>Omsorg</h1>
+            <Box marginTop={Margin.large}>
+                <PageContainer isLoading={isLoading} hasError={omsorgsperiodeoversiktHarFeilet}>
+                    <div className={styles.mainComponent}>
+                        <Omsorgsperiodeoversikt omsorgsperiodeoversikt={omsorgsperiodeoversikt} />
+                    </div>
+                </PageContainer>
+            </Box>
         </ContainerContext.Provider>
     );
 };
