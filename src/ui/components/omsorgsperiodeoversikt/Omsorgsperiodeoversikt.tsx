@@ -42,7 +42,6 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
                         return (
                             <VurderingAvOmsorgsperioderForm
                                 omsorgsperiode={valgtPeriode}
-                                onSubmit={() => console.log('asdf')}
                                 onAvbryt={() => velgPeriode(null)}
                             />
                         );

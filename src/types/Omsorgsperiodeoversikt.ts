@@ -1,5 +1,4 @@
 import Omsorgsperiode from './Omsorgsperiode';
-import Vurderingsresultat from './Vurderingsresultat';
 import OmsorgsperioderResponse from './OmsorgsperioderResponse';
 
 class Omsorgsperiodeoversikt {

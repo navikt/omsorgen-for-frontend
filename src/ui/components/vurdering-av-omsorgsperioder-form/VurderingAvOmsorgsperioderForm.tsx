@@ -44,7 +44,6 @@ const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurderi
 
 interface VurderingAvOmsorgsperioderFormProps {
     omsorgsperiode: Omsorgsperiode;
-    onSubmit: () => void;
     onAvbryt: () => void;
 }
 
@@ -97,8 +96,6 @@ const VurderingAvOmsorgsperioderForm = ({
                 },
             ];
         }
-
-        console.log(vurdertePerioder);
         onFinished(vurdertePerioder);
     };
 
