@@ -34,11 +34,11 @@ const Periodenavigasjon = ({
 
     return (
         <div className={styles.vurderingsnavigasjon}>
-            <Undertittel>Alle perioder</Undertittel>
+            <Undertittel className={styles.vurderingsnavigasjon__heading}>Alle perioder</Undertittel>
             {antallPerioder === 0 && <p>Ingen vurderinger å vise</p>}
             {antallPerioder > 0 && (
                 <div className={styles.vurderingsvelgerContainer}>
-                    <Element>Periode</Element>
+                    <Element className={styles.vurderingsvelgerContainer__periode}>Periode</Element>
                     <InteractiveList
                         elements={elements.map((element, currentIndex) => ({
                             content: element,
