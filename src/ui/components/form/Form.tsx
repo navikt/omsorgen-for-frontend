@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import Box, { Margin } from '../box/Box';
 import styles from './form.less';
+import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 
 interface FormProps {
     children: React.ReactNode;
@@ -18,7 +19,9 @@ const Form = ({ children, onSubmit, buttonLabel, shouldShowSubmitButton, onAvbry
             {shouldShowSubmitButton !== false && (
                 <Box marginTop={Margin.xxLarge}>
                     <div className={styles.buttonContainer}>
-                        <Hovedknapp id="submitButton">{buttonLabel}</Hovedknapp>
+                        <WriteAccessBoundContent
+                            contentRenderer={() => <Hovedknapp id="submitButton">{buttonLabel}</Hovedknapp>}
+                        />
                         {onAvbryt && (
                             <div className={styles.buttonContainer__avbryt}>
                                 <Knapp htmlType="button" onClick={onAvbryt}>
