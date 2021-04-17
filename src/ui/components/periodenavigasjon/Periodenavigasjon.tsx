@@ -1,12 +1,13 @@
-import React from 'react';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import InteractiveList from '../interactive-list/InteractiveList';
-import VurderingsperiodeElement from '../vurderingsperiode/VurderingsperiodeElement';
+import React from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
-import PeriodeSomSkalVurderes from '../periode-som-skal-vurderes/PeriodeSomSkalVurderes';
-import styles from './periodenavigasjon.less';
-import { sortPeriodsByFomDate } from '../../../util/periodUtils';
 import { Period } from '../../../types/Period';
+import { sortPeriodsByFomDate } from '../../../util/periodUtils';
+import Box, { Margin } from '../box/Box';
+import InteractiveList from '../interactive-list/InteractiveList';
+import PeriodeSomSkalVurderes from '../periode-som-skal-vurderes/PeriodeSomSkalVurderes';
+import VurderingsperiodeElement from '../vurderingsperiode/VurderingsperiodeElement';
+import styles from './periodenavigasjon.less';
 
 interface PeriodenavigasjonProps {
     perioderTilVurdering: Omsorgsperiode[];
@@ -42,6 +43,9 @@ const Periodenavigasjon = ({
 
     return (
         <div className={styles.vurderingsnavigasjon}>
+            <Box marginBottom={Margin.large}>
+                <Undertittel className={styles.vurderingsnavigasjon__heading}>Alle perioder</Undertittel>
+            </Box>
             {antallPerioder === 0 && <p>Ingen vurderinger å vise</p>}
             {antallPerioder > 0 && (
                 <div className={styles.vurderingsvelgerContainer}>
