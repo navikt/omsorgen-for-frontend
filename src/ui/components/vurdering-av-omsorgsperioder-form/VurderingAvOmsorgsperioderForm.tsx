@@ -17,6 +17,7 @@ import DetailView from '../detail-view/DetailView';
 import Form from '../form/Form';
 import LabelledContent from '../labelled-content/LabelledContent';
 import periodDifference from '../../../periodDifference';
+import styles from './vurderingAvOmsorgsperioderForm.less';
 
 export enum FieldName {
     BEGRUNNELSE = 'begrunnelse',
@@ -104,102 +105,107 @@ const VurderingAvOmsorgsperioderForm = ({
     const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
 
     return (
-        <DetailView title="Vurdering av omsorg">
-            <FormProvider {...formMethods}>
-                <Box marginTop={Margin.xLarge}>
-                    <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
-                </Box>
-                {omsorgsperiode.relasjon === Relasjon.ANNET && (
+        <div className={styles.vurderingAvOmsorgsperioderForm}>
+            <DetailView title="Vurdering av omsorg">
+                <FormProvider {...formMethods}>
                     <Box marginTop={Margin.xLarge}>
-                        <LabelledContent label="Beskrivelse fra søker" content={omsorgsperiode.relasjonsbeskrivelse} />
+                        <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
                     </Box>
-                )}
-                <Form
-                    onSubmit={formMethods.handleSubmit(handleSubmit)}
-                    buttonLabel="Bekreft og fortsett"
-                    onAvbryt={onAvbryt}
-                >
-                    <Box marginTop={Margin.xLarge}>
-                        <TextArea
-                            label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
-                            name={FieldName.BEGRUNNELSE}
-                        />
-                    </Box>
-                    <Box marginTop={Margin.xLarge}>
-                        <RadioGroup
-                            question="Har søker omsorgen for barnet i denne perioden?"
-                            radios={[
-                                { value: RadioOptions.HELE, label: 'Ja' },
-                                { value: RadioOptions.DELER, label: 'Ja, i deler av perioden' },
-                                { value: RadioOptions.NEI, label: 'Nei' },
-                            ]}
-                            name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
-                        />
-                    </Box>
-                    {harSøkerOmsorgenFor === RadioOptions.DELER && (
+                    {omsorgsperiode.relasjon === Relasjon.ANNET && (
                         <Box marginTop={Margin.xLarge}>
-                            <PeriodpickerList
-                                name={FieldName.PERIODER}
-                                legend="I hvilke perioder har søker omsorgen for barnet?"
-                                fromDatepickerProps={{
-                                    label: 'Fra',
-                                    ariaLabel: 'Fra',
-                                    limitations: {
-                                        minDate: omsorgsperiode.periode.fom,
-                                        maxDate: omsorgsperiode.periode.tom,
-                                    },
-                                }}
-                                toDatepickerProps={{
-                                    label: 'Til',
-                                    ariaLabel: 'Til',
-                                    limitations: {
-                                        minDate: omsorgsperiode.periode.fom,
-                                        maxDate: omsorgsperiode.periode.tom,
-                                    },
-                                }}
-                                defaultValues={[new Period(omsorgsperiode.periode.fom, omsorgsperiode.periode.tom)]}
-                                renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => {
-                                    return (
-                                        <>
-                                            {numberOfItems > 1 && (
-                                                <DeleteButton
-                                                    onClick={() => {
-                                                        fieldArrayMethods.remove(index);
-                                                    }}
-                                                />
-                                            )}
-                                        </>
-                                    );
-                                }}
-                                renderAfterFieldArray={(fieldArrayMethods) => (
-                                    <Box marginTop={Margin.large}>
-                                        <AddButton
-                                            label="Legg til periode"
-                                            onClick={() => fieldArrayMethods.append({ fom: '', tom: '' })}
-                                            id="leggTilPeriodeKnapp"
-                                        />
-                                    </Box>
-                                )}
+                            <LabelledContent
+                                label="Beskrivelse fra søker"
+                                content={omsorgsperiode.relasjonsbeskrivelse}
                             />
                         </Box>
                     )}
-                    {resterendePerioder.length > 0 && (
+                    <Form
+                        onSubmit={formMethods.handleSubmit(handleSubmit)}
+                        buttonLabel="Bekreft og fortsett"
+                        onAvbryt={onAvbryt}
+                    >
                         <Box marginTop={Margin.xLarge}>
-                            <AlertStripeInfo>
-                                <LabelledContent
-                                    label="Resterende perioder har søkeren ikke omsorgen for barnet:"
-                                    content={resterendePerioder.map((periode) => (
-                                        <p key={`${periode.fom}-${periode.tom}`} style={{ margin: 0 }}>
-                                            {prettifyPeriod(periode)}
-                                        </p>
-                                    ))}
-                                />
-                            </AlertStripeInfo>
+                            <TextArea
+                                label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
+                                name={FieldName.BEGRUNNELSE}
+                            />
                         </Box>
-                    )}
-                </Form>
-            </FormProvider>
-        </DetailView>
+                        <Box marginTop={Margin.xLarge}>
+                            <RadioGroup
+                                question="Har søker omsorgen for barnet i denne perioden?"
+                                radios={[
+                                    { value: RadioOptions.HELE, label: 'Ja' },
+                                    { value: RadioOptions.DELER, label: 'Ja, i deler av perioden' },
+                                    { value: RadioOptions.NEI, label: 'Nei' },
+                                ]}
+                                name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
+                            />
+                        </Box>
+                        {harSøkerOmsorgenFor === RadioOptions.DELER && (
+                            <Box marginTop={Margin.xLarge}>
+                                <PeriodpickerList
+                                    name={FieldName.PERIODER}
+                                    legend="I hvilke perioder har søker omsorgen for barnet?"
+                                    fromDatepickerProps={{
+                                        label: 'Fra',
+                                        ariaLabel: 'Fra',
+                                        limitations: {
+                                            minDate: omsorgsperiode.periode.fom,
+                                            maxDate: omsorgsperiode.periode.tom,
+                                        },
+                                    }}
+                                    toDatepickerProps={{
+                                        label: 'Til',
+                                        ariaLabel: 'Til',
+                                        limitations: {
+                                            minDate: omsorgsperiode.periode.fom,
+                                            maxDate: omsorgsperiode.periode.tom,
+                                        },
+                                    }}
+                                    defaultValues={[new Period(omsorgsperiode.periode.fom, omsorgsperiode.periode.tom)]}
+                                    renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => {
+                                        return (
+                                            <>
+                                                {numberOfItems > 1 && (
+                                                    <DeleteButton
+                                                        onClick={() => {
+                                                            fieldArrayMethods.remove(index);
+                                                        }}
+                                                    />
+                                                )}
+                                            </>
+                                        );
+                                    }}
+                                    renderAfterFieldArray={(fieldArrayMethods) => (
+                                        <Box marginTop={Margin.large}>
+                                            <AddButton
+                                                label="Legg til periode"
+                                                onClick={() => fieldArrayMethods.append({ fom: '', tom: '' })}
+                                                id="leggTilPeriodeKnapp"
+                                            />
+                                        </Box>
+                                    )}
+                                />
+                            </Box>
+                        )}
+                        {resterendePerioder.length > 0 && (
+                            <Box marginTop={Margin.xLarge}>
+                                <AlertStripeInfo>
+                                    <LabelledContent
+                                        label="Resterende perioder har søkeren ikke omsorgen for barnet:"
+                                        content={resterendePerioder.map((periode) => (
+                                            <p key={`${periode.fom}-${periode.tom}`} style={{ margin: 0 }}>
+                                                {prettifyPeriod(periode)}
+                                            </p>
+                                        ))}
+                                    />
+                                </AlertStripeInfo>
+                            </Box>
+                        )}
+                    </Form>
+                </FormProvider>
+            </DetailView>
+        </div>
     );
 };
 
