@@ -1,5 +1,5 @@
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import { Period } from '../../../types/Period';
 import { sortPeriodsByFomDate } from '../../../util/periodUtils';
@@ -13,14 +13,22 @@ interface PeriodenavigasjonProps {
     perioderTilVurdering: Omsorgsperiode[];
     vurdertePerioder: Omsorgsperiode[];
     onPeriodeValgt: (periode: Omsorgsperiode) => void;
+    harValgtPeriode?: boolean;
 }
 
 const Periodenavigasjon = ({
     perioderTilVurdering,
     vurdertePerioder,
     onPeriodeValgt,
+    harValgtPeriode,
 }: PeriodenavigasjonProps): JSX.Element => {
     const [activeIndex, setActiveIndex] = React.useState(-1);
+
+    useEffect(() => {
+        if (!harValgtPeriode) {
+            setActiveIndex(-1);
+        }
+    }, [harValgtPeriode]);
 
     const vurdertePerioderElements = vurdertePerioder
         .sort((op1, op2) => {

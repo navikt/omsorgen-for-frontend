@@ -1,12 +1,14 @@
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import periodDifference from '../../../periodDifference';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import { Period } from '../../../types/Period';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
 import { prettifyPeriod } from '../../../util/formats';
 import ContainerContext from '../../context/ContainerContext';
+import { required } from '../../form/validators/index';
 import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
 import RadioGroup from '../../form/wrappers/RadioGroup';
 import TextArea from '../../form/wrappers/TextArea';
@@ -16,7 +18,6 @@ import DeleteButton from '../delete-button/DeleteButton';
 import DetailView from '../detail-view/DetailView';
 import Form from '../form/Form';
 import LabelledContent from '../labelled-content/LabelledContent';
-import periodDifference from '../../../periodDifference';
 import styles from './vurderingAvOmsorgsperioderForm.less';
 
 export enum FieldName {
@@ -128,6 +129,7 @@ const VurderingAvOmsorgsperioderForm = ({
                             <TextArea
                                 label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
                                 name={FieldName.BEGRUNNELSE}
+                                validators={{ required }}
                             />
                         </Box>
                         <Box marginTop={Margin.xLarge}>
@@ -139,6 +141,7 @@ const VurderingAvOmsorgsperioderForm = ({
                                     { value: RadioOptions.NEI, label: 'Nei' },
                                 ]}
                                 name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
+                                validators={{ required }}
                             />
                         </Box>
                         {harSøkerOmsorgenFor === RadioOptions.DELER && (

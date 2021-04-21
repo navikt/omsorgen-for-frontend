@@ -32,6 +32,7 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
                         perioderTilVurdering={perioderTilVurdering}
                         vurdertePerioder={vurderteOmsorgsperioder}
                         onPeriodeValgt={velgPeriode}
+                        harValgtPeriode={valgtPeriode !== null}
                     />
                 )}
                 detailSection={() => {
