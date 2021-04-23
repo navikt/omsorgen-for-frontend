@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import OmsorgsperiodeoversiktType from '../../../types/Omsorgsperiodeoversikt';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import OmsorgsperiodeoversiktMessages from '../omsorgsperiodeoversikt-messages/OmsorgsperiodeoversiktMessages';
@@ -22,6 +22,12 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
         setValgtPeriode(periode);
         setErRedigeringsmodus(false);
     };
+
+    useEffect(() => {
+        if (omsorgsperiodeoversikt.harPerioderTilVurdering()) {
+            setValgtPeriode(perioderTilVurdering[0]);
+        }
+    }, []);
 
     return (
         <>

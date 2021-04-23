@@ -1,7 +1,8 @@
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 import React, { useEffect } from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import { Period } from '../../../types/Period';
+import { usePrevious } from '../../../util/hooks';
 import { sortPeriodsByFomDate } from '../../../util/periodUtils';
 import Box, { Margin } from '../box/Box';
 import InteractiveList from '../interactive-list/InteractiveList';
@@ -22,10 +23,12 @@ const Periodenavigasjon = ({
     onPeriodeValgt,
     harValgtPeriode,
 }: PeriodenavigasjonProps): JSX.Element => {
-    const [activeIndex, setActiveIndex] = React.useState(-1);
+    const harPerioderSomSkalVurderes = perioderTilVurdering?.length > 0;
+    const [activeIndex, setActiveIndex] = React.useState(harPerioderSomSkalVurderes ? 0 : -1);
+    const previousHarValgtPeriode = usePrevious(harValgtPeriode);
 
     useEffect(() => {
-        if (!harValgtPeriode) {
+        if (harValgtPeriode === false && previousHarValgtPeriode === true) {
             setActiveIndex(-1);
         }
     }, [harValgtPeriode]);
@@ -57,7 +60,6 @@ const Periodenavigasjon = ({
             {antallPerioder === 0 && <p>Ingen vurderinger å vise</p>}
             {antallPerioder > 0 && (
                 <div className={styles.vurderingsvelgerContainer}>
-                    <Element className={styles.vurderingsvelgerContainer__periode}>Periode</Element>
                     <InteractiveList
                         elements={elements.map((element, currentIndex) => ({
                             content: element,
