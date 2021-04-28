@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'build/**'
+      - '.github/workflows/deploy.yml'
 env:
   IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/omsorgen-for-frontend
   CLUSTER: dev-fss
