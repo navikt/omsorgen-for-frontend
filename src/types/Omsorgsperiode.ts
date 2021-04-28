@@ -1,4 +1,4 @@
-import { Period } from './Period';
+import { Period } from '@navikt/period-utils';
 import Vurderingsresultat from './Vurderingsresultat';
 
 class Omsorgsperiode {
@@ -22,7 +22,7 @@ class Omsorgsperiode {
         begrunnelse,
         relasjon,
     }: Partial<Omsorgsperiode>) {
-        this.periode = periode;
+        this.periode = new Period(periode.fom, periode.tom);
         this.resultatEtterAutomatikk = resultatEtterAutomatikk;
         this.resultat = resultat;
         this.relasjonsbeskrivelse = relasjonsbeskrivelse;

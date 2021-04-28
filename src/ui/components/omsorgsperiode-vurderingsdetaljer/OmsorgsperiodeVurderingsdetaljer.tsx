@@ -1,8 +1,6 @@
 import React from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relajson from '../../../types/Relasjon';
-import Vurderingsresultat from '../../../types/Vurderingsresultat';
-import { prettifyPeriod } from '../../../util/formats';
 import Box, { Margin } from '../box/Box';
 import DetailView from '../detail-view/DetailView';
 import LabelledContent from '../labelled-content/LabelledContent';
@@ -80,7 +78,7 @@ const OmsorgsperiodeVurderingsdetaljer = ({
                 <LabelledContent label="Har søker omsorgen for barnet i denne perioden?" content={resultatRenderer()} />
             </Box>
             <Box marginTop={Margin.xLarge}>
-                <LabelledContent label="Perioder" content={prettifyPeriod(omsorgsperiode.periode)} />
+                <LabelledContent label="Perioder" content={omsorgsperiode.periode.prettifyPeriod()} />
             </Box>
         </DetailView>
     );

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Period } from '../../../types/Period';
+import { Period } from '@navikt/period-utils';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
-import { prettifyPeriod } from '../../../util/formats';
 import ContentWithTooltip from '../content-with-tooltip/ContentWithTooltip';
 import GreenCheckIconFilled from '../icons/GreenCheckIconFilled';
 import RedCrossIconFilled from '../icons/RedCrossIconFilled';
@@ -36,6 +35,7 @@ const VurderingsperiodeElement = ({
     resultat,
     renderAfterElement,
 }: VurderingsperiodeElementProps): JSX.Element => {
+    const period = new Period(periode.fom, periode.tom);
     return (
         <div className={styles.vurderingsperiodeElement}>
             <span className={styles.visuallyHidden}>Type</span>
@@ -43,7 +43,7 @@ const VurderingsperiodeElement = ({
             <div className={styles.vurderingsperiodeElement__texts}>
                 <p className={styles.vurderingsperiodeElement__texts__period}>
                     <span className={styles.visuallyHidden}>Periode</span>
-                    {prettifyPeriod(periode)}
+                    {period.prettifyPeriod()}
                 </p>
             </div>
             {renderAfterElement && renderAfterElement()}
