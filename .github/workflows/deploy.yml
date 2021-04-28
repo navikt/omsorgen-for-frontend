@@ -24,6 +24,8 @@ jobs:
           node-version: 12.x
       - name: Installere dependencies
         run: npm install
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Kjøre enhetstester
         run: npm test
       - name: Sette versjon
