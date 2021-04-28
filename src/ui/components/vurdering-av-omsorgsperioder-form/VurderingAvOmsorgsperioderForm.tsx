@@ -1,12 +1,10 @@
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import periodDifference from '../../../periodDifference';
+import { getPeriodDifference, Period } from '@navikt/period-utils';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
-import { Period } from '../../../types/Period';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
-import { prettifyPeriod } from '../../../util/formats';
 import ContainerContext from '../../context/ContainerContext';
 import { required } from '../../form/validators/index';
 import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
@@ -39,7 +37,7 @@ interface FormPeriod {
 const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurdering: Period) => {
     const formatertePerioderFraForm = perioderFraForm.map((periode) => periode.period);
     const resterendePerioder =
-        formatertePerioderFraForm.length > 0 && periodDifference([periodeTilVurdering], formatertePerioderFraForm);
+        formatertePerioderFraForm.length > 0 && getPeriodDifference([periodeTilVurdering], formatertePerioderFraForm);
 
     return resterendePerioder;
 };
@@ -198,7 +196,7 @@ const VurderingAvOmsorgsperioderForm = ({
                                         label="Resterende perioder har søkeren ikke omsorgen for barnet:"
                                         content={resterendePerioder.map((periode) => (
                                             <p key={`${periode.fom}-${periode.tom}`} style={{ margin: 0 }}>
-                                                {prettifyPeriod(periode)}
+                                                {periode.prettifyPeriod()}
                                             </p>
                                         ))}
                                     />
