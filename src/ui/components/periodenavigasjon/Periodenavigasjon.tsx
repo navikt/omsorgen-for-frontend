@@ -1,7 +1,7 @@
-import { Undertittel } from 'nav-frontend-typografi';
 import React, { useEffect } from 'react';
+import { Undertittel } from 'nav-frontend-typografi';
+import { Period } from '@navikt/period-utils';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
-import { Period } from '../../../types/Period';
 import { usePrevious } from '../../../util/hooks';
 import { sortPeriodsByFomDate } from '../../../util/periodUtils';
 import Box, { Margin } from '../box/Box';

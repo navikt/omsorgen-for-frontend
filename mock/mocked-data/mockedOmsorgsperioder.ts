@@ -1,45 +1,43 @@
-import Omsorgsperiode from '../../src/types/Omsorgsperiode';
-import { Period } from '../../src/types/Period';
 import Vurderingsresultat from '../../src/types/Vurderingsresultat';
 
-const omsorgsperioder: Omsorgsperiode[] = [
-    new Omsorgsperiode({
+const omsorgsperioder = [
+    {
         begrunnelse: null,
-        periode: new Period('2021-03-20', '2021-03-25'),
+        periode: { fom: '2021-03-20', tom: '2021-03-25 ' } as any,
         relasjon: 'Annet',
         relasjonsbeskrivelse: 'Nabo',
         resultat: Vurderingsresultat.IKKE_VURDERT,
         resultatEtterAutomatikk: Vurderingsresultat.IKKE_VURDERT,
-    }),
-    new Omsorgsperiode({
+    },
+    {
         begrunnelse: 'Fordi foo og bar',
-        periode: new Period('2021-03-16', '2021-03-20'),
+        periode: { fom: '2021-03-16', tom: '2021-03-20 ' } as any,
         relasjon: 'Annet',
         relasjonsbeskrivelse: 'Nabo',
         resultat: Vurderingsresultat.IKKE_OPPFYLT,
         resultatEtterAutomatikk: Vurderingsresultat.IKKE_VURDERT,
-    }),
-    new Omsorgsperiode({
-        periode: new Period('2021-03-09', '2021-03-15'),
+    },
+    {
+        periode: { fom: '2021-03-09', tom: '2021-03-15 ' } as any,
         resultat: Vurderingsresultat.IKKE_VURDERT,
         resultatEtterAutomatikk: Vurderingsresultat.OPPFYLT,
-    }),
-    new Omsorgsperiode({
+    },
+    {
         begrunnelse: 'Fordi ditt og datt',
-        periode: new Period('2021-03-01', '2021-03-05'),
+        periode: { fom: '2021-03-01', tom: '2021-03-05 ' } as any,
         relasjon: 'Far',
         relasjonsbeskrivelse: null,
         resultat: Vurderingsresultat.OPPFYLT,
         resultatEtterAutomatikk: Vurderingsresultat.OPPFYLT,
-    }),
-    new Omsorgsperiode({
+    },
+    {
         begrunnelse: 'Fordi sånn og sånn',
-        periode: new Period('2021-02-01', '2021-02-05'),
+        periode: { fom: '2021-02-01', tom: '2021-02-05' } as any,
         relasjon: 'Far',
         relasjonsbeskrivelse: null,
         resultat: Vurderingsresultat.OPPFYLT,
         resultatEtterAutomatikk: Vurderingsresultat.OPPFYLT,
-    }),
+    },
 ];
 
 export default omsorgsperioder;
