@@ -7,6 +7,7 @@ import LabelledContent from '../labelled-content/LabelledContent';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import LinkButton from '../link-button/LinkButton';
 import styles from './omsorgsperiodeVurderingsdetaljer.less';
+import Relasjon from '../../../types/Relasjon';
 
 interface OmsorgsperiodeVurderingsdetaljerProps {
     omsorgsperiode: Omsorgsperiode;
@@ -63,7 +64,7 @@ const OmsorgsperiodeVurderingsdetaljer = ({
                     <Box marginTop={Margin.xLarge}>
                         <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
                     </Box>
-                    {omsorgsperiode.relasjon === Relajson.ANNET && (
+                    {omsorgsperiode.relasjon.toUpperCase() === Relasjon.ANNET.toUpperCase() && (
                         <Box marginTop={Margin.xLarge}>
                             <LabelledContent
                                 label="Beskrivelse fra søker"

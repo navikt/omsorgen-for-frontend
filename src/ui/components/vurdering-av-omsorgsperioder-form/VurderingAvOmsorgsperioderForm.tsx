@@ -110,7 +110,7 @@ const VurderingAvOmsorgsperioderForm = ({
                     <Box marginTop={Margin.xLarge}>
                         <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
                     </Box>
-                    {omsorgsperiode.relasjon === Relasjon.ANNET && (
+                    {omsorgsperiode.relasjon.toUpperCase() === Relasjon.ANNET.toUpperCase() && (
                         <Box marginTop={Margin.xLarge}>
                             <LabelledContent
                                 label="Beskrivelse fra søker"
