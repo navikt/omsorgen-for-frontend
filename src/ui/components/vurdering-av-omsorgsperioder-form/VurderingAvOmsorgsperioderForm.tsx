@@ -186,6 +186,22 @@ const VurderingAvOmsorgsperioderForm = ({
                                             />
                                         </Box>
                                     )}
+                                    validators={{
+                                        overlaps: (valgtPeriode: Period) => {
+                                            const andreValgtePerioder = formMethods
+                                                .getValues()
+                                                .perioder.filter(
+                                                    (periodWrapper: any) => periodWrapper.period !== valgtPeriode
+                                                )
+                                                .map(({ period }: any) => new Period(period.fom, period.tom));
+
+                                            const period = new Period(valgtPeriode.fom, valgtPeriode.tom);
+                                            if (period.overlapsWithSomePeriodInList(andreValgtePerioder)) {
+                                                return 'Omsorgsperiodene kan ikke overlappe';
+                                            }
+                                            return null;
+                                        },
+                                    }}
                                 />
                             </Box>
                         )}
