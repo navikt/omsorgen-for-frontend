@@ -195,8 +195,8 @@ const VurderingAvOmsorgsperioderForm = ({
                                                 )
                                                 .map(({ period }: any) => new Period(period.fom, period.tom));
 
-                                            const period = new Period(valgtPeriode.fom, valgtPeriode.tom);
-                                            if (period.overlapsWithSomePeriodInList(andreValgtePerioder)) {
+                                            const valgtPeriodePeriod = new Period(valgtPeriode.fom, valgtPeriode.tom);
+                                            if (valgtPeriodePeriod.overlapsWithSomePeriodInList(andreValgtePerioder)) {
                                                 return 'Omsorgsperiodene kan ikke overlappe';
                                             }
                                             return null;
