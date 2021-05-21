@@ -1,5 +1,5 @@
 import React from 'react';
-import { Period } from '@navikt/period-utils';
+import { Period } from '@navikt/k9-period-utils';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
 import ContentWithTooltip from '../content-with-tooltip/ContentWithTooltip';
 import GreenCheckIconFilled from '../icons/GreenCheckIconFilled';

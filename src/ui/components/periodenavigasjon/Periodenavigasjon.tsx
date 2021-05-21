@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import { Period } from '@navikt/period-utils';
+import { Period } from '@navikt/k9-period-utils';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import { usePrevious } from '../../../util/hooks';
 import { sortPeriodsByFomDate } from '../../../util/periodUtils';

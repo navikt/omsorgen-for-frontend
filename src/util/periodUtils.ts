@@ -1,4 +1,4 @@
-import { Period } from '@navikt/period-utils';
+import { Period } from '@navikt/k9-period-utils';
 
 export const getStringMedPerioder = (perioder: Period[]): string => {
     if (perioder.length === 1) {

@@ -1,7 +1,7 @@
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { getPeriodDifference, Period } from '@navikt/period-utils';
+import { getPeriodDifference, Period } from '@navikt/k9-period-utils';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
