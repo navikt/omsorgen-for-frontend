@@ -1,13 +1,12 @@
 import React from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
-import Relajson from '../../../types/Relasjon';
 import Box, { Margin } from '../box/Box';
 import DetailView from '../detail-view/DetailView';
 import LabelledContent from '../labelled-content/LabelledContent';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import LinkButton from '../link-button/LinkButton';
-import styles from './omsorgsperiodeVurderingsdetaljer.less';
 import Relasjon from '../../../types/Relasjon';
+import styles from './omsorgsperiodeVurderingsdetaljer.less';
 
 interface OmsorgsperiodeVurderingsdetaljerProps {
     omsorgsperiode: Omsorgsperiode;
@@ -46,6 +45,9 @@ const OmsorgsperiodeVurderingsdetaljer = ({
         return null;
     };
 
+    const skalViseRelasjonsbeskrivelse =
+        omsorgsperiode.relasjon?.toUpperCase() === Relasjon.ANNET.toUpperCase() && omsorgsperiode.relasjonsbeskrivelse;
+
     return (
         <DetailView
             title="Vurdering av omsorg"
@@ -61,10 +63,12 @@ const OmsorgsperiodeVurderingsdetaljer = ({
         >
             {omsorgsperiode.erManueltVurdert() && (
                 <>
-                    <Box marginTop={Margin.xLarge}>
-                        <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
-                    </Box>
-                    {omsorgsperiode.relasjon.toUpperCase() === Relasjon.ANNET.toUpperCase() && (
+                    {omsorgsperiode.relasjon && (
+                        <Box marginTop={Margin.xLarge}>
+                            <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
+                        </Box>
+                    )}
+                    {skalViseRelasjonsbeskrivelse && (
                         <Box marginTop={Margin.xLarge}>
                             <LabelledContent
                                 label="Beskrivelse fra søker"

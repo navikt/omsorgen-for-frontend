@@ -102,15 +102,19 @@ const VurderingAvOmsorgsperioderForm = ({
     const perioder = formMethods.watch(FieldName.PERIODER);
     const harSøkerOmsorgenFor = formMethods.watch(FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE);
     const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
+    const skalViseRelasjonsbeskrivelse =
+        omsorgsperiode.relasjon?.toUpperCase() === Relasjon.ANNET.toUpperCase() && omsorgsperiode.relasjonsbeskrivelse;
 
     return (
         <div className={styles.vurderingAvOmsorgsperioderForm}>
             <DetailView title="Vurdering av omsorg">
                 <FormProvider {...formMethods}>
-                    <Box marginTop={Margin.xLarge}>
-                        <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
-                    </Box>
-                    {omsorgsperiode.relasjon.toUpperCase() === Relasjon.ANNET.toUpperCase() && (
+                    {omsorgsperiode.relasjon && (
+                        <Box marginTop={Margin.xLarge}>
+                            <LabelledContent label="Oppgitt relasjon i søknaden" content={omsorgsperiode.relasjon} />
+                        </Box>
+                    )}
+                    {skalViseRelasjonsbeskrivelse && (
                         <Box marginTop={Margin.xLarge}>
                             <LabelledContent
                                 label="Beskrivelse fra søker"
