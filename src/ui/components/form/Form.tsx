@@ -1,8 +1,8 @@
-import * as React from 'react';
+import { Box, Margin } from '@navikt/k9-react-components';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import Box, { Margin } from '../box/Box';
-import styles from './form.less';
+import * as React from 'react';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
+import styles from './form.less';
 
 interface FormProps {
     children: React.ReactNode;
