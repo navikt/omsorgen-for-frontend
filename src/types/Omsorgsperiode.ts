@@ -27,7 +27,7 @@ class Omsorgsperiode {
         this.resultat = resultat;
         this.relasjonsbeskrivelse = relasjonsbeskrivelse;
         this.begrunnelse = begrunnelse;
-        this.relasjon = relasjon;
+        this.relasjon = relasjon ? relasjon[0].toUpperCase() + relasjon.slice(1).toLowerCase() : '';
     }
 
     erOppfylt() {
