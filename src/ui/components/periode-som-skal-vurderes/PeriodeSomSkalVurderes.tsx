@@ -1,6 +1,6 @@
 import React from 'react';
 import { Period } from '@navikt/k9-period-utils';
-import ContentWithTooltip from '../content-with-tooltip/ContentWithTooltip';
+import { ContentWithTooltip } from '@navikt/k9-react-components';
 import WarningIcon from '../icons/WarningIcon';
 import styles from './periodeSomSkalVurderes.less';
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import { NavigationWithDetailView } from '@navikt/k9-react-components';
 import OmsorgsperiodeoversiktType from '../../../types/Omsorgsperiodeoversikt';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import OmsorgsperiodeoversiktMessages from '../omsorgsperiodeoversikt-messages/OmsorgsperiodeoversiktMessages';
-import NavigationWithDetailView from '../navigation-with-detail-view/NavigationWithDetailView';
 import Periodenavigasjon from '../periodenavigasjon/Periodenavigasjon';
 import OmsorgsperiodeVurderingsdetaljer from '../omsorgsperiode-vurderingsdetaljer/OmsorgsperiodeVurderingsdetaljer';
 import VurderingAvOmsorgsperioderForm from '../vurdering-av-omsorgsperioder-form/VurderingAvOmsorgsperioderForm';
@@ -41,10 +41,8 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
                         harValgtPeriode={valgtPeriode !== null}
                     />
                 )}
+                showDetailSection={!!valgtPeriode}
                 detailSection={() => {
-                    if (!valgtPeriode) {
-                        return null;
-                    }
                     if (perioderTilVurdering.includes(valgtPeriode) || erRedigeringsmodus) {
                         return (
                             <VurderingAvOmsorgsperioderForm
