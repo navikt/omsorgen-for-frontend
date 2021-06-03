@@ -1,5 +1,14 @@
 import { getPeriodDifference, Period } from '@navikt/k9-period-utils';
-import { Box, Margin } from '@navikt/k9-react-components';
+import {
+    Box,
+    Margin,
+    PeriodpickerList,
+    RadioGroupPanel,
+    TextArea,
+    DetailView,
+    Form,
+    LabelledContent,
+} from '@navikt/k9-react-components';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -8,14 +17,8 @@ import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
 import ContainerContext from '../../context/ContainerContext';
 import { required } from '../../form/validators/index';
-import PeriodpickerList from '../../form/wrappers/PeriodpickerList';
-import RadioGroup from '../../form/wrappers/RadioGroup';
-import TextArea from '../../form/wrappers/TextArea';
 import AddButton from '../add-button/AddButton';
 import DeleteButton from '../delete-button/DeleteButton';
-import DetailView from '../detail-view/DetailView';
-import Form from '../form/Form';
-import LabelledContent from '../labelled-content/LabelledContent';
 import styles from './vurderingAvOmsorgsperioderForm.less';
 
 export enum FieldName {
@@ -135,7 +138,7 @@ const VurderingAvOmsorgsperioderForm = ({
                             />
                         </Box>
                         <Box marginTop={Margin.xLarge}>
-                            <RadioGroup
+                            <RadioGroupPanel
                                 question="Har søker omsorgen for barnet i denne perioden?"
                                 radios={[
                                     { value: RadioOptions.HELE, label: 'Ja' },

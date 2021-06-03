@@ -1,7 +1,7 @@
 import React from 'react';
 import { Period } from '@navikt/k9-period-utils';
+import { ContentWithTooltip } from '@navikt/k9-react-components';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
-import ContentWithTooltip from '../content-with-tooltip/ContentWithTooltip';
 import GreenCheckIconFilled from '../icons/GreenCheckIconFilled';
 import RedCrossIconFilled from '../icons/RedCrossIconFilled';
 import styles from './vurderingsperiodeElement.less';
