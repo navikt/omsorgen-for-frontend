@@ -1,7 +1,6 @@
 import React from 'react';
 import { Period } from '@navikt/k9-period-utils';
-import { ContentWithTooltip } from '@navikt/k9-react-components';
-import WarningIcon from '../icons/WarningIcon';
+import { ContentWithTooltip, WarningIcon } from '@navikt/k9-react-components';
 import styles from './periodeSomSkalVurderes.less';
 
 interface PeriodeSomSkalVurderesProps {

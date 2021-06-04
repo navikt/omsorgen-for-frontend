@@ -1,10 +1,10 @@
+import { get } from '@navikt/k9-http-utils';
 import { Box, Margin, PageContainer } from '@navikt/k9-react-components';
 import axios from 'axios';
 import React from 'react';
 import { ContainerContract } from '../types/ContainerContract';
 import OmsorgsperiodeoversiktType from '../types/Omsorgsperiodeoversikt';
 import OmsorgsperioderResponse from '../types/OmsorgsperioderResponse';
-import { get } from '../util/httpUtils';
 import ActionType from './actionTypes';
 import Omsorgsperiodeoversikt from './components/omsorgsperiodeoversikt/Omsorgsperiodeoversikt';
 import ContainerContext from './context/ContainerContext';
