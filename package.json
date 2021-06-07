@@ -3,7 +3,7 @@
     "version": "0.0.10",
     "main": "index.js",
     "scripts": {
-        "test": "jest",
+        "test": "jest --passWithNoTests",
         "test-watch": "jest --watch",
         "start": "node ./server.js",
         "build": "webpack --config webpack/webpack-config.production.js",
