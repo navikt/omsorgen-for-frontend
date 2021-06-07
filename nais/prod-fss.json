@@ -1,0 +1,9 @@
+{
+    "app": "omsorgen-for-frontend",
+    "cluster": "prod-fss",
+    "namespace": "pleiepenger",
+    "team": "pleiepenger",
+    "minReplicas": "1",
+    "maxReplicas": "2",
+    "ingresses": ["https://omsorgen-for-frontend.intern.nav.no"]
+}
