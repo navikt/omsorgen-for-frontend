@@ -1,9 +1,9 @@
-import React from 'react';
+import { Box, Margin } from '@navikt/k9-react-components';
 import Alertstripe from 'nav-frontend-alertstriper';
+import React from 'react';
 import Omsorgsperiodeoversikt from '../../../types/Omsorgsperiodeoversikt';
-import Box, { Margin } from '../box/Box';
-import styles from './omsorgsperiodeoversiktMessages.less';
 import { getStringMedPerioder } from '../../../util/periodUtils';
+import styles from './omsorgsperiodeoversiktMessages.less';
 
 interface OmsorgsperiodeoversiktMessagesProps {
     omsorgsperiodeoversikt: Omsorgsperiodeoversikt;

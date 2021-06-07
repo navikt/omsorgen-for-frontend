@@ -1,16 +1,15 @@
-import React from 'react';
+import { get } from '@navikt/k9-http-utils';
+import { Box, Margin, PageContainer } from '@navikt/k9-react-components';
 import axios from 'axios';
+import React from 'react';
 import { ContainerContract } from '../types/ContainerContract';
 import OmsorgsperiodeoversiktType from '../types/Omsorgsperiodeoversikt';
-import Omsorgsperiodeoversikt from './components/omsorgsperiodeoversikt/Omsorgsperiodeoversikt';
-import { get } from '../util/httpUtils';
 import OmsorgsperioderResponse from '../types/OmsorgsperioderResponse';
-import PageContainer from './components/page-container/PageContainer';
-import mainComponentReducer from './reducer';
-import styles from './mainComponent.less';
-import ContainerContext from './context/ContainerContext';
 import ActionType from './actionTypes';
-import Box, { Margin } from './components/box/Box';
+import Omsorgsperiodeoversikt from './components/omsorgsperiodeoversikt/Omsorgsperiodeoversikt';
+import ContainerContext from './context/ContainerContext';
+import styles from './mainComponent.less';
+import mainComponentReducer from './reducer';
 
 interface MainComponentProps {
     data: ContainerContract;
