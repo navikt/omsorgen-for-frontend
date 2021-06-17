@@ -128,6 +128,7 @@ const VurderingAvOmsorgsperioderForm = ({
                                 label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
                                 name={FieldName.BEGRUNNELSE}
                                 validators={{ required }}
+                                disabled={readOnly}
                             />
                         </Box>
                         <Box marginTop={Margin.xLarge}>
@@ -140,6 +141,7 @@ const VurderingAvOmsorgsperioderForm = ({
                                 ]}
                                 name={FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE}
                                 validators={{ required }}
+                                disabled={readOnly}
                             />
                         </Box>
                         {harSøkerOmsorgenFor === RadioOptions.DELER && (
@@ -147,6 +149,7 @@ const VurderingAvOmsorgsperioderForm = ({
                                 <PeriodpickerList
                                     name={FieldName.PERIODER}
                                     legend="I hvilke perioder har søker omsorgen for barnet?"
+                                    disabled={readOnly}
                                     fromDatepickerProps={{
                                         label: 'Fra',
                                         ariaLabel: 'Fra',
