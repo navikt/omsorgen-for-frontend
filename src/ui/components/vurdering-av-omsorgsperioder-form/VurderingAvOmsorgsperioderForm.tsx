@@ -52,7 +52,7 @@ const VurderingAvOmsorgsperioderForm = ({
     omsorgsperiode,
     onAvbryt,
 }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
-    const { onFinished } = React.useContext(ContainerContext);
+    const { onFinished, readOnly } = React.useContext(ContainerContext);
 
     const formMethods = useForm({
         defaultValues: {
@@ -121,6 +121,7 @@ const VurderingAvOmsorgsperioderForm = ({
                         onSubmit={formMethods.handleSubmit(handleSubmit)}
                         buttonLabel="Bekreft og fortsett"
                         onAvbryt={onAvbryt}
+                        shouldShowSubmitButton={!readOnly}
                     >
                         <Box marginTop={Margin.xLarge}>
                             <TextArea
