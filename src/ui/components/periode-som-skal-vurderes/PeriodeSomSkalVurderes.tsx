@@ -7,7 +7,7 @@ interface PeriodeSomSkalVurderesProps {
     periode: Period;
 }
 
-const PeriodeSomSkalVurderes = ({ periode }: PeriodeSomSkalVurderesProps) => {
+const PeriodeSomSkalVurderes = ({ periode }: PeriodeSomSkalVurderesProps): JSX.Element => {
     const period = new Period(periode.fom, periode.tom);
     return (
         <div className={styles.periodeSomSkalVurderes} id="periodeSomSkalVurderes">

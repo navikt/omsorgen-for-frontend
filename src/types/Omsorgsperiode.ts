@@ -30,42 +30,42 @@ class Omsorgsperiode {
         this.relasjon = relasjon ? relasjon[0].toUpperCase() + relasjon.slice(1).toLowerCase() : '';
     }
 
-    erOppfylt() {
+    erOppfylt(): boolean {
         return (
             this.resultat === Vurderingsresultat.OPPFYLT || this.resultatEtterAutomatikk === Vurderingsresultat.OPPFYLT
         );
     }
 
-    erIkkeOppfylt() {
+    erIkkeOppfylt(): boolean {
         return (
             this.resultat === Vurderingsresultat.IKKE_OPPFYLT ||
             this.resultatEtterAutomatikk === Vurderingsresultat.IKKE_OPPFYLT
         );
     }
 
-    erAutomatiskVurdert() {
+    erAutomatiskVurdert(): boolean {
         return (
             this.resultatEtterAutomatikk === Vurderingsresultat.OPPFYLT ||
             this.resultatEtterAutomatikk === Vurderingsresultat.IKKE_OPPFYLT
         );
     }
 
-    erManueltVurdert() {
+    erManueltVurdert(): boolean {
         return this.resultat === Vurderingsresultat.OPPFYLT || this.resultat === Vurderingsresultat.IKKE_OPPFYLT;
     }
 
-    erVurdert() {
+    erVurdert(): boolean {
         return this.erManueltVurdert() || this.erAutomatiskVurdert();
     }
 
-    manglerVurdering() {
+    manglerVurdering(): boolean {
         return (
             this.resultat === Vurderingsresultat.IKKE_VURDERT &&
             this.resultatEtterAutomatikk === Vurderingsresultat.IKKE_VURDERT
         );
     }
 
-    hentResultat() {
+    hentResultat(): Vurderingsresultat {
         if (this.resultat === Vurderingsresultat.IKKE_VURDERT) {
             return this.resultatEtterAutomatikk;
         }

@@ -15,7 +15,7 @@ const OmsorgsperiodeVurderingsdetaljer = ({
     omsorgsperiode,
     onEditClick,
     registrertForeldrerelasjon,
-}: OmsorgsperiodeVurderingsdetaljerProps) => {
+}: OmsorgsperiodeVurderingsdetaljerProps): JSX.Element => {
     const begrunnelseRenderer = () => {
         let label = 'Vurder om søker har omsorgen for barnet etter § 9-10, første ledd.';
         let begrunnelse = '';

@@ -22,15 +22,15 @@ class Omsorgsperiodeoversikt {
         this.registrertSammeBosted = registrertSammeBosted;
     }
 
-    harPerioderTilVurdering() {
+    harPerioderTilVurdering(): boolean {
         return this.perioder.some((omsorgspeiode) => omsorgspeiode.manglerVurdering());
     }
 
-    finnVurdertePerioder() {
+    finnVurdertePerioder(): Omsorgsperiode[] {
         return this.perioder.filter((omsorgsperiode) => omsorgsperiode.erVurdert());
     }
 
-    finnPerioderTilVurdering() {
+    finnPerioderTilVurdering(): Omsorgsperiode[] {
         return this.perioder.filter((omsorgsperiode) => omsorgsperiode.manglerVurdering());
     }
 }

@@ -9,7 +9,9 @@ interface OmsorgsperiodeoversiktMessagesProps {
     omsorgsperiodeoversikt: Omsorgsperiodeoversikt;
 }
 
-const OmsorgsperiodeoversiktMessages = ({ omsorgsperiodeoversikt }: OmsorgsperiodeoversiktMessagesProps) => {
+const OmsorgsperiodeoversiktMessages = ({
+    omsorgsperiodeoversikt,
+}: OmsorgsperiodeoversiktMessagesProps): JSX.Element => {
     if (omsorgsperiodeoversikt.harPerioderTilVurdering()) {
         const perioderTilVurdering = omsorgsperiodeoversikt.finnPerioderTilVurdering().map(({ periode }) => periode);
         return (

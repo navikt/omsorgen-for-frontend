@@ -3,7 +3,7 @@ import { Period } from '@navikt/k9-period-utils';
 import { dateFromString } from '../../../util/dateUtils';
 import { tomorrow } from '../../../constants/dateConstants';
 
-export function required(v: any) {
+export function required(v: string | number): string | boolean {
     if (v === null || v === undefined || v === '') {
         return 'Du må oppgi en verdi';
     }
@@ -18,7 +18,7 @@ export function dateIsNotInTheFuture(dateString: string): string | boolean {
     return true;
 }
 
-export const detErTilsynsbehovPåDatoen = (dato: any, perioderMedTilsynsbehov: Period[]): string | boolean => {
+export const detErTilsynsbehovPåDatoen = (dato: string, perioderMedTilsynsbehov: Period[]): string | boolean => {
     const detErTilsynsbehovPåDato = perioderMedTilsynsbehov.some((periode) =>
         new Period(periode.fom, periode.tom).includesDate(dato)
     );
@@ -28,7 +28,7 @@ export const detErTilsynsbehovPåDatoen = (dato: any, perioderMedTilsynsbehov: P
     return 'Dato må være innenfor en periode med tilsynsbehov';
 };
 
-export const datoenInngårISøknadsperioden = (dato: any, søknadsperiode: Period): string | boolean => {
+export const datoenInngårISøknadsperioden = (dato: string, søknadsperiode: Period): string | boolean => {
     if (søknadsperiode.includesDate(dato)) {
         return true;
     }
@@ -36,7 +36,7 @@ export const datoenInngårISøknadsperioden = (dato: any, søknadsperiode: Perio
     return 'Dato må være innenfor søknadsperioden';
 };
 
-export const detErIngenInnleggelsePåDato = (dato: any, innleggelsesperioder: Period[]): string | boolean => {
+export const detErIngenInnleggelsePåDato = (dato: string, innleggelsesperioder: Period[]): string | boolean => {
     const detErInnleggelsePåDato = innleggelsesperioder.some((periode) =>
         new Period(periode.fom, periode.tom).includesDate(dato)
     );
@@ -47,7 +47,7 @@ export const detErIngenInnleggelsePåDato = (dato: any, innleggelsesperioder: Pe
 };
 
 export const datoErInnenforResterendeVurderingsperioder = (
-    dato: any,
+    dato: string,
     resterendeVurderingsperioder: Period[]
 ): string | true => {
     const datoErInnenfor = resterendeVurderingsperioder.some((period) =>

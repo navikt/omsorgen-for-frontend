@@ -43,9 +43,9 @@ const Periodenavigasjon = ({
             return <VurderingsperiodeElement periode={periode} resultat={omsorgsperiode.hentResultat()} />;
         });
 
-    const periodeTilVurderingElements = perioderTilVurdering.map(({ periode }) => {
-        return <PeriodeSomSkalVurderes periode={periode} />;
-    });
+    const periodeTilVurderingElements = perioderTilVurdering.map(({ periode }) => (
+        <PeriodeSomSkalVurderes periode={periode} />
+    ));
 
     const perioder = [...perioderTilVurdering, ...vurdertePerioder];
     const elements = [...periodeTilVurderingElements, ...vurdertePerioderElements];

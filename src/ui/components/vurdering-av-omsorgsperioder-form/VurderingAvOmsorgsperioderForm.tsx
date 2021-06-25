@@ -103,6 +103,7 @@ const VurderingAvOmsorgsperioderForm = ({
     return (
         <div className={styles.vurderingAvOmsorgsperioderForm}>
             <DetailView title="Vurdering av omsorg">
+                {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                 <FormProvider {...formMethods}>
                     {omsorgsperiode.relasjon && (
                         <Box marginTop={Margin.xLarge}>
@@ -167,19 +168,17 @@ const VurderingAvOmsorgsperioderForm = ({
                                         },
                                     }}
                                     defaultValues={[new Period(omsorgsperiode.periode.fom, omsorgsperiode.periode.tom)]}
-                                    renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => {
-                                        return (
-                                            <>
-                                                {numberOfItems > 1 && (
-                                                    <DeleteButton
-                                                        onClick={() => {
-                                                            fieldArrayMethods.remove(index);
-                                                        }}
-                                                    />
-                                                )}
-                                            </>
-                                        );
-                                    }}
+                                    renderContentAfterElement={(index, numberOfItems, fieldArrayMethods) => (
+                                        <>
+                                            {numberOfItems > 1 && (
+                                                <DeleteButton
+                                                    onClick={() => {
+                                                        fieldArrayMethods.remove(index);
+                                                    }}
+                                                />
+                                            )}
+                                        </>
+                                    )}
                                     renderAfterFieldArray={(fieldArrayMethods) => (
                                         <Box marginTop={Margin.large}>
                                             <AddButton
@@ -194,11 +193,15 @@ const VurderingAvOmsorgsperioderForm = ({
                                             const andreValgtePerioder = formMethods
                                                 .getValues()
                                                 .perioder.filter(
-                                                    (periodWrapper: any) => periodWrapper.period !== valgtPeriode
+                                                    (periodWrapper: { period: Partial<Period> }) =>
+                                                        periodWrapper.period !== valgtPeriode
                                                 )
-                                                .map(({ period }: any) => new Period(period.fom, period.tom));
-
-                                            const valgtPeriodePeriod = new Period(valgtPeriode.fom, valgtPeriode.tom);
+                                                .map(
+                                                    ({ period }: { period: Partial<Period> }) =>
+                                                        new Period(period.fom, period.tom)
+                                                );
+                                            const { fom, tom } = valgtPeriode;
+                                            const valgtPeriodePeriod = new Period(fom, tom);
                                             if (valgtPeriodePeriod.overlapsWithSomePeriodInList(andreValgtePerioder)) {
                                                 return 'Omsorgsperiodene kan ikke overlappe';
                                             }

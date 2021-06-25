@@ -11,7 +11,7 @@ interface OmsorgsperiodeoversiktProps {
     omsorgsperiodeoversikt: OmsorgsperiodeoversiktType;
 }
 
-const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: OmsorgsperiodeoversiktProps) => {
+const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: OmsorgsperiodeoversiktProps): JSX.Element => {
     const [valgtPeriode, setValgtPeriode] = React.useState<Omsorgsperiode>(null);
     const [erRedigeringsmodus, setErRedigeringsmodus] = React.useState(false);
 
