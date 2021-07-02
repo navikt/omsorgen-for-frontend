@@ -17,9 +17,7 @@ const OmsorgsperiodeoversiktMessages = ({
         return (
             <Box marginBottom={Margin.large}>
                 <Alertstripe type="advarsel" className={styles.alertstripe}>
-                    {`Søker er ikke folkeregistrert forelder. Vurder om søker har omsorgen for barnet i ${getStringMedPerioder(
-                        perioderTilVurdering
-                    )}.`}
+                    {`Vurder om søker har omsorgen for barnet i ${getStringMedPerioder(perioderTilVurdering)}.`}
                 </Alertstripe>
             </Box>
         );
