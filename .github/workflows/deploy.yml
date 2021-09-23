@@ -30,7 +30,7 @@ jobs:
             - name: Installere dependencies
               run: npm install
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NODE_AUTH_TOKEN: ${{ secrets.READ_PACKAGES_PAT }}
             - name: Kjøre enhetstester
               run: npm test
             - name: Sette versjon
