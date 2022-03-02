@@ -22,9 +22,6 @@ app.use('/mock/omsorgsperioder', (req, res) => {
 });
 
 const port = 8082;
-app.listen(port, (error) => {
-    if (error) {
-        console.error(error);
-    }
+app.listen(port, () => {
     console.log('API-mock listening on port', port);
 });
