@@ -1,9 +1,9 @@
-import { Box, Margin, DetailView, LabelledContent, LinkButton } from '@navikt/k9-react-components';
+import { Box, Margin, DetailView, LabelledContent, LinkButton } from '@navikt/ft-plattform-komponenter';
 import React from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
-import styles from './omsorgsperiodeVurderingsdetaljer.less';
+import styles from './omsorgsperiodeVurderingsdetaljer.css';
 
 interface OmsorgsperiodeVurderingsdetaljerProps {
     omsorgsperiode: Omsorgsperiode;

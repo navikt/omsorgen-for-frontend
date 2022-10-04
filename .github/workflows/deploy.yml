@@ -28,15 +28,15 @@ jobs:
                   registry-url: https://npm.pkg.github.com/
                   scope: '@navikt'
             - name: Installere dependencies
-              run: npm install
+              run: yarn install
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
             - name: Kjøre linter
-              run: npm run lint
+              run: yarn lint
             - name: Kjøre enhetstester
-              run: npm test
+              run: yarn test
             - name: Bygge applikasjon
-              run: npm run build
+              run: yarn build
             - name: Sette versjon
               run: |
                   echo "MAJOR_VERSION=$(npm run majorVersion --silent)" >> $GITHUB_ENV

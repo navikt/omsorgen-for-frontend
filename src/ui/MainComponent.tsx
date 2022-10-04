@@ -1,14 +1,15 @@
 import { get } from '@navikt/k9-http-utils';
-import { Box, Margin, PageContainer } from '@navikt/k9-react-components';
+import { Box, Margin, PageContainer } from '@navikt/ft-plattform-komponenter';
 import axios from 'axios';
 import React from 'react';
+import '@navikt/ft-plattform-komponenter/dist/style.css';
 import { ContainerContract } from '../types/ContainerContract';
 import OmsorgsperiodeoversiktType from '../types/Omsorgsperiodeoversikt';
 import OmsorgsperioderResponse from '../types/OmsorgsperioderResponse';
 import ActionType from './actionTypes';
 import Omsorgsperiodeoversikt from './components/omsorgsperiodeoversikt/Omsorgsperiodeoversikt';
 import ContainerContext from './context/ContainerContext';
-import styles from './mainComponent.less';
+import styles from './mainComponent.css';
 import mainComponentReducer from './reducer';
 
 interface MainComponentProps {

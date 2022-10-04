@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NavigationWithDetailView } from '@navikt/k9-react-components';
+import { NavigationWithDetailView } from '@navikt/ft-plattform-komponenter';
 import OmsorgsperiodeoversiktType from '../../../types/Omsorgsperiodeoversikt';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import OmsorgsperiodeoversiktMessages from '../omsorgsperiodeoversikt-messages/OmsorgsperiodeoversiktMessages';
