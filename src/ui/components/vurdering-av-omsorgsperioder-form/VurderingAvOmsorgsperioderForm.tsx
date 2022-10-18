@@ -1,9 +1,9 @@
 import { getPeriodDifference, Period } from '@navikt/k9-period-utils';
-import { Box, Margin, DetailView, Form, LabelledContent } from '@navikt/k9-react-components';
+import { Box, Margin, DetailView, Form, LabelledContent } from '@navikt/ft-plattform-komponenter';
 import { PeriodpickerList, RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
@@ -11,7 +11,7 @@ import ContainerContext from '../../context/ContainerContext';
 import { required } from '../../form/validators/index';
 import AddButton from '../add-button/AddButton';
 import DeleteButton from '../delete-button/DeleteButton';
-import styles from './vurderingAvOmsorgsperioderForm.less';
+import styles from './vurderingAvOmsorgsperioderForm.css';
 
 export enum FieldName {
     BEGRUNNELSE = 'begrunnelse',
@@ -30,7 +30,9 @@ interface FormPeriod {
 }
 
 const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurdering: Period) => {
-    const formatertePerioderFraForm = perioderFraForm.map((periode) => periode.period);
+    const formatertePerioderFraForm = perioderFraForm.map(
+        (periode) => new Period(periode.period.fom, periode.period.tom)
+    );
     const resterendePerioder =
         formatertePerioderFraForm.length > 0 && getPeriodDifference([periodeTilVurdering], formatertePerioderFraForm);
 
@@ -58,6 +60,7 @@ const VurderingAvOmsorgsperioderForm = ({
         defaultValues: {
             [FieldName.PERIODER]: [{ period: omsorgsperiode.periode }],
             [FieldName.BEGRUNNELSE]: omsorgsperiode.begrunnelse || '',
+            [FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE]: undefined,
         },
     });
 
@@ -94,8 +97,11 @@ const VurderingAvOmsorgsperioderForm = ({
         onFinished(vurdertePerioder);
     };
 
-    const perioder = formMethods.watch(FieldName.PERIODER);
-    const harSøkerOmsorgenFor = formMethods.watch(FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE);
+    const perioder = useWatch({ control: formMethods.control, name: FieldName.PERIODER });
+    const harSøkerOmsorgenFor = useWatch({
+        control: formMethods.control,
+        name: FieldName.HAR_SØKER_OMSORGEN_FOR_I_PERIODE,
+    });
     const resterendePerioder = finnResterendePerioder(perioder, omsorgsperiode.periode);
     const skalViseRelasjonsbeskrivelse =
         omsorgsperiode.relasjon?.toUpperCase() === Relasjon.ANNET.toUpperCase() && omsorgsperiode.relasjonsbeskrivelse;

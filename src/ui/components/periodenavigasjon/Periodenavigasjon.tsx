@@ -1,5 +1,5 @@
 import { Period } from '@navikt/k9-period-utils';
-import { Box, Margin, InteractiveList } from '@navikt/k9-react-components';
+import { Box, Margin, InteractiveList } from '@navikt/ft-plattform-komponenter';
 import { Undertittel } from 'nav-frontend-typografi';
 import React, { useEffect } from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
@@ -7,7 +7,7 @@ import { usePrevious } from '../../../util/hooks';
 import { sortPeriodsByFomDate } from '../../../util/periodUtils';
 import PeriodeSomSkalVurderes from '../periode-som-skal-vurderes/PeriodeSomSkalVurderes';
 import VurderingsperiodeElement from '../vurderingsperiode/VurderingsperiodeElement';
-import styles from './periodenavigasjon.less';
+import styles from './periodenavigasjon.css';
 
 interface PeriodenavigasjonProps {
     perioderTilVurdering: Omsorgsperiode[];
