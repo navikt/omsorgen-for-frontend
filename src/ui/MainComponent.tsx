@@ -3,6 +3,7 @@ import { Box, Margin, PageContainer } from '@navikt/ft-plattform-komponenter';
 import axios from 'axios';
 import React from 'react';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
+import '@navikt/ds-css';
 import { ContainerContract } from '../types/ContainerContract';
 import OmsorgsperiodeoversiktType from '../types/Omsorgsperiodeoversikt';
 import OmsorgsperioderResponse from '../types/OmsorgsperioderResponse';

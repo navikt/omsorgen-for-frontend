@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { NavigationWithDetailView } from '@navikt/ft-plattform-komponenter';
+import hash from 'object-hash';
 import OmsorgsperiodeoversiktType from '../../../types/Omsorgsperiodeoversikt';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import OmsorgsperiodeoversiktMessages from '../omsorgsperiodeoversikt-messages/OmsorgsperiodeoversiktMessages';
@@ -46,6 +47,7 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
                     if (perioderTilVurdering.includes(valgtPeriode) || erRedigeringsmodus) {
                         return (
                             <VurderingAvOmsorgsperioderForm
+                                key={hash(valgtPeriode)}
                                 omsorgsperiode={valgtPeriode}
                                 onAvbryt={() => velgPeriode(null)}
                             />
