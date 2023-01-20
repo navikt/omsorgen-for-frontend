@@ -1649,6 +1649,11 @@
   resolved "https://npm.pkg.github.com/download/@navikt/k9-array-utils/0.0.1/5f1fd9b78afcc5fe1d73b67d93fc1d5c4377d9d1#5f1fd9b78afcc5fe1d73b67d93fc1d5c4377d9d1"
   integrity sha512-43FAkBgT/LB4MgU5s18pe+4svmxXojKu5ypyNdxIPSCY+4y80ZZ58/yZTgmQw3XZxLACHMePRdP6PRkTrk9j2g==
 
+"@navikt/k9-array-utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/k9-array-utils/1.0.0/b7dde672aac417b8df9d67d9a8a4a876e3cd17ba#b7dde672aac417b8df9d67d9a8a4a876e3cd17ba"
+  integrity sha512-TkXzo0RNuafXIZnW0Wak2Dsnvcc0I3q96LvbTZnSyqMpKOTVeJlJiHjxB6pGqRCSVq6gYtt+ufMzMfY+ptVRZQ==
+
 "@navikt/k9-bem-utils@1.0.1":
   version "1.0.1"
   resolved "https://npm.pkg.github.com/download/@navikt/k9-bem-utils/1.0.1/451f330cbf3636c6406468c157468ea07dfb3b10#451f330cbf3636c6406468c157468ea07dfb3b10"
