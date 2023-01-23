@@ -1672,10 +1672,10 @@
     "@navikt/k9-bem-utils" "1.0.1"
     "@navikt/k9-period-utils" "0.0.12"
 
-"@navikt/k9-http-utils@0.0.3":
-  version "0.0.3"
-  resolved "https://npm.pkg.github.com/download/@navikt/k9-http-utils/0.0.3/133dec9df786c1f1aa27da7a0598bd4ba77823fa#133dec9df786c1f1aa27da7a0598bd4ba77823fa"
-  integrity sha512-GPLcn/64+HfLQd/1/JQ0WV9iicDdApiAtb0bU67y9FowKRlKIUKitaulSFCYFKjD1dUP3oArxHKd1qmZrBBqnQ==
+"@navikt/k9-http-utils@1.0.2":
+  version "1.0.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/k9-http-utils/1.0.2/a03b6a16f89c988f5c311762a3e7f43b9f63b5ca#a03b6a16f89c988f5c311762a3e7f43b9f63b5ca"
+  integrity sha512-f8WrOtTLyE+WAmQNlj2EbOJ2G3zMTCymDYt6mhbhN/hmALiLYnI+of244d9anSMPOdxbwCfd3+ccwlhndFtu3A==
 
 "@navikt/k9-period-utils@0.0.12", "@navikt/k9-period-utils@^0.0.12":
   version "0.0.12"
