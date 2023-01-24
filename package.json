@@ -105,7 +105,7 @@
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-collapse": "^5.1.1",
-        "react-day-picker": "^7.4.8",
+        "react-day-picker": "^8.5.0",
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.42.1",
         "react-popper": "^2.3.0"
