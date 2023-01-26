@@ -54,7 +54,7 @@ const VurderingAvOmsorgsperioderForm = ({
     omsorgsperiode,
     onAvbryt,
 }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
-    const { onFinished, readOnly } = React.useContext(ContainerContext);
+    const { onFinished, readOnly, hjemmel } = React.useContext(ContainerContext);
 
     const formMethods = useForm({
         defaultValues: {
@@ -132,7 +132,7 @@ const VurderingAvOmsorgsperioderForm = ({
                     >
                         <Box marginTop={Margin.xLarge}>
                             <TextArea
-                                label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
+                                label={`Vurder om søker har omsorgen for barnet etter ${hjemmel}`}
                                 name={FieldName.BEGRUNNELSE}
                                 validators={{ required }}
                                 disabled={readOnly}

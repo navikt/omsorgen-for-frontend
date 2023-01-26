@@ -53,8 +53,13 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
         };
     }, []);
 
+    const contextData = {
+        ...data,
+        hjemmel: data.sakstype === 'PSB' ? '§ 9-10, første ledd.' : '§ 9-5',
+    };
+
     return (
-        <ContainerContext.Provider value={data}>
+        <ContainerContext.Provider value={contextData}>
             <h1 style={{ fontSize: 22 }}>Omsorg</h1>
             <Box marginTop={Margin.large}>
                 <PageContainer isLoading={isLoading} hasError={omsorgsperiodeoversiktHarFeilet}>

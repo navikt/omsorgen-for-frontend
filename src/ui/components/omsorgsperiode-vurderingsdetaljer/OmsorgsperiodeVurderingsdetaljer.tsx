@@ -2,6 +2,7 @@ import { Box, Margin, DetailView, LabelledContent, LinkButton } from '@navikt/ft
 import React from 'react';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
+import ContainerContext from '../../context/ContainerContext';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import styles from './omsorgsperiodeVurderingsdetaljer.css';
 
@@ -16,8 +17,10 @@ const OmsorgsperiodeVurderingsdetaljer = ({
     onEditClick,
     registrertForeldrerelasjon,
 }: OmsorgsperiodeVurderingsdetaljerProps): JSX.Element => {
+    const { hjemmel } = React.useContext(ContainerContext);
+
     const begrunnelseRenderer = () => {
-        let label = 'Vurder om søker har omsorgen for barnet etter § 9-10, første ledd.';
+        let label = `Vurder om søker har omsorgen for barnet etter ${hjemmel}`;
         let begrunnelse = '';
         if (omsorgsperiode.erManueltVurdert()) {
             begrunnelse = omsorgsperiode.begrunnelse;
