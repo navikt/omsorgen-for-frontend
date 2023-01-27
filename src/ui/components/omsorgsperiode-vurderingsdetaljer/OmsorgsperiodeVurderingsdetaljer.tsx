@@ -1,5 +1,6 @@
 import { Box, Margin, DetailView, LabelledContent, LinkButton } from '@navikt/ft-plattform-komponenter';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
@@ -16,8 +17,9 @@ const OmsorgsperiodeVurderingsdetaljer = ({
     onEditClick,
     registrertForeldrerelasjon,
 }: OmsorgsperiodeVurderingsdetaljerProps): JSX.Element => {
+    const intl = useIntl();
     const begrunnelseRenderer = () => {
-        let label = 'Vurder om søker har omsorgen for barnet etter § 9-10, første ledd.';
+        let label = intl.formatMessage({ id: 'vurdering.hjemmel' });
         let begrunnelse = '';
         if (omsorgsperiode.erManueltVurdert()) {
             begrunnelse = omsorgsperiode.begrunnelse;
