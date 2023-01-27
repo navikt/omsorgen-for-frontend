@@ -58,7 +58,6 @@ const VurderingAvOmsorgsperioderForm = ({
     const { onFinished, readOnly } = React.useContext(ContainerContext);
 
     const intl = useIntl();
-    console.log(intl.messages);
     const formMethods = useForm({
         defaultValues: {
             [FieldName.PERIODER]: [{ period: omsorgsperiode.periode }],
