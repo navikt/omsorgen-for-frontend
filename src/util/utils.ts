@@ -14,5 +14,5 @@ export const teksterForSakstype = (sakstype: string) => {
     if (sakstype === Ytelsestype.OMP) {
         return messages.omsorgspenger;
     }
-    return messages.felles;
+    return messages.pleiepenger;
 };
