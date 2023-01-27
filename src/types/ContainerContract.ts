@@ -8,5 +8,4 @@ export interface ContainerContract {
     onFinished: (vurdering) => void;
     httpErrorHandler: HttpErrorHandler;
     sakstype: string;
-    hjemmel: string;
 }

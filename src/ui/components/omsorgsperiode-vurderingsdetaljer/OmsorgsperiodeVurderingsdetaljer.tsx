@@ -1,8 +1,8 @@
 import { Box, Margin, DetailView, LabelledContent, LinkButton } from '@navikt/ft-plattform-komponenter';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
-import ContainerContext from '../../context/ContainerContext';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import styles from './omsorgsperiodeVurderingsdetaljer.css';
 
@@ -17,10 +17,9 @@ const OmsorgsperiodeVurderingsdetaljer = ({
     onEditClick,
     registrertForeldrerelasjon,
 }: OmsorgsperiodeVurderingsdetaljerProps): JSX.Element => {
-    const { hjemmel } = React.useContext(ContainerContext);
-
+    const intl = useIntl();
     const begrunnelseRenderer = () => {
-        let label = `Vurder om søker har omsorgen for barnet etter ${hjemmel}`;
+        let label = intl.formatMessage({ id: 'vurdering.hjemmel' });
         let begrunnelse = '';
         if (omsorgsperiode.erManueltVurdert()) {
             begrunnelse = omsorgsperiode.begrunnelse;

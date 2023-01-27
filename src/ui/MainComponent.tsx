@@ -2,6 +2,7 @@ import { get } from '@navikt/k9-http-utils';
 import { Box, Margin, PageContainer } from '@navikt/ft-plattform-komponenter';
 import axios from 'axios';
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
 import '@navikt/ds-css';
 import { ContainerContract } from '../types/ContainerContract';
@@ -10,8 +11,9 @@ import OmsorgsperioderResponse from '../types/OmsorgsperioderResponse';
 import ActionType from './actionTypes';
 import Omsorgsperiodeoversikt from './components/omsorgsperiodeoversikt/Omsorgsperiodeoversikt';
 import ContainerContext from './context/ContainerContext';
-import styles from './mainComponent.css';
 import mainComponentReducer from './reducer';
+import styles from './mainComponent.css';
+import { teksterForSakstype } from '../util/utils';
 
 interface MainComponentProps {
     data: ContainerContract;
@@ -53,22 +55,19 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
         };
     }, []);
 
-    const contextData = {
-        ...data,
-        hjemmel: data.sakstype === 'PSB' ? '§ 9-10, første ledd.' : '§ 9-5',
-    };
-
     return (
-        <ContainerContext.Provider value={contextData}>
-            <h1 style={{ fontSize: 22 }}>Omsorg</h1>
-            <Box marginTop={Margin.large}>
-                <PageContainer isLoading={isLoading} hasError={omsorgsperiodeoversiktHarFeilet}>
-                    <div className={styles.mainComponent}>
-                        <Omsorgsperiodeoversikt omsorgsperiodeoversikt={omsorgsperiodeoversikt} />
-                    </div>
-                </PageContainer>
-            </Box>
-        </ContainerContext.Provider>
+        <IntlProvider locale="nb-NO" messages={teksterForSakstype(data.sakstype)}>
+            <ContainerContext.Provider value={data}>
+                <h1 style={{ fontSize: 22 }}>Omsorg</h1>
+                <Box marginTop={Margin.large}>
+                    <PageContainer isLoading={isLoading} hasError={omsorgsperiodeoversiktHarFeilet}>
+                        <div className={styles.mainComponent}>
+                            <Omsorgsperiodeoversikt omsorgsperiodeoversikt={omsorgsperiodeoversikt} />
+                        </div>
+                    </PageContainer>
+                </Box>
+            </ContainerContext.Provider>
+        </IntlProvider>
     );
 };
 
