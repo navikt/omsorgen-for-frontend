@@ -5,5 +5,5 @@
     "team": "pleiepenger",
     "minReplicas": "1",
     "maxReplicas": "2",
-    "ingresses": ["https://omsorgen-for-frontend.dev.adeo.no", "https://omsorgen-for-frontend.intern.dev.adeo.no"]
+    "ingresses": ["https://omsorgen-for-frontend.dev.adeo.no"]
 }
