@@ -7,4 +7,5 @@ export interface ContainerContract {
     readOnly: boolean;
     onFinished: (vurdering) => void;
     httpErrorHandler: HttpErrorHandler;
+    sakstype: string;
 }

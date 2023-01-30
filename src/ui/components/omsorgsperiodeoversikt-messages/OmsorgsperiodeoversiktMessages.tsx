@@ -1,6 +1,7 @@
 import { Box, Margin } from '@navikt/ft-plattform-komponenter';
 import Alertstripe from 'nav-frontend-alertstriper';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Omsorgsperiodeoversikt from '../../../types/Omsorgsperiodeoversikt';
 import { getStringMedPerioder } from '../../../util/periodUtils';
 import styles from './omsorgsperiodeoversiktMessages.css';
@@ -17,7 +18,10 @@ const OmsorgsperiodeoversiktMessages = ({
         return (
             <Box marginBottom={Margin.large}>
                 <Alertstripe type="advarsel" className={styles.alertstripe}>
-                    {`Vurder om søker har omsorgen for barnet i ${getStringMedPerioder(perioderTilVurdering)}.`}
+                    <FormattedMessage
+                        id="vurdering.advarsel"
+                        values={{ perioder: getStringMedPerioder(perioderTilVurdering) }}
+                    />
                 </Alertstripe>
             </Box>
         );

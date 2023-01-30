@@ -4,6 +4,7 @@ import { PeriodpickerList, RadioGroupPanel, TextArea } from '@navikt/k9-form-uti
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import { useIntl } from 'react-intl';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
 import Vurderingsresultat from '../../../types/Vurderingsresultat';
@@ -56,6 +57,7 @@ const VurderingAvOmsorgsperioderForm = ({
 }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
     const { onFinished, readOnly } = React.useContext(ContainerContext);
 
+    const intl = useIntl();
     const formMethods = useForm({
         defaultValues: {
             [FieldName.PERIODER]: [{ period: omsorgsperiode.periode }],
@@ -132,7 +134,7 @@ const VurderingAvOmsorgsperioderForm = ({
                     >
                         <Box marginTop={Margin.xLarge}>
                             <TextArea
-                                label="Vurder om søker har omsorgen for barnet etter § 9-10, første ledd."
+                                label={intl.formatMessage({ id: 'vurdering.hjemmel' })}
                                 name={FieldName.BEGRUNNELSE}
                                 validators={{ required }}
                                 disabled={readOnly}
@@ -140,7 +142,7 @@ const VurderingAvOmsorgsperioderForm = ({
                         </Box>
                         <Box marginTop={Margin.xLarge}>
                             <RadioGroupPanel
-                                question="Har søker omsorgen for barnet i denne perioden?"
+                                question={intl.formatMessage({ id: 'vurdering.harOmsorgenFor' })}
                                 radios={[
                                     { value: RadioOptions.HELE, label: 'Ja' },
                                     { value: RadioOptions.DELER, label: 'Ja, i deler av perioden' },
