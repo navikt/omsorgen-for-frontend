@@ -13,7 +13,7 @@ import { required } from '../../form/validators/index';
 import AddButton from '../add-button/AddButton';
 import DeleteButton from '../delete-button/DeleteButton';
 import styles from './vurderingAvOmsorgsperioderForm.css';
-import { Ytelsestype } from '../../../types/Ytelsestype';
+import Ytelsestype from '../../../types/Ytelsestype';
 
 export enum FieldName {
     BEGRUNNELSE = 'begrunnelse',

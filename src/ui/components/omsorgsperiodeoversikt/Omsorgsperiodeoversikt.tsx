@@ -9,7 +9,7 @@ import OmsorgsperiodeVurderingsdetaljer from '../omsorgsperiode-vurderingsdetalj
 import VurderingAvOmsorgsperioderForm from '../vurdering-av-omsorgsperioder-form/VurderingAvOmsorgsperioderForm';
 import Fosterbarn from '../fosterbarn/Fosterbarn';
 import ContainerContext from '../../context/ContainerContext';
-import { Ytelsestype } from '../../../types/Ytelsestype';
+import Ytelsestype from '../../../types/Ytelsestype';
 
 interface OmsorgsperiodeoversiktProps {
     omsorgsperiodeoversikt: OmsorgsperiodeoversiktType;
