@@ -13,7 +13,11 @@ interface FosterbarnProps {
 
 const Fosterbarn = ({ setFosterbarn }: FosterbarnProps) => {
     const { readOnly } = useContext(ContainerContext);
-    const { control, register } = useForm();
+    const {
+        control,
+        register,
+        formState: { errors },
+    } = useForm({ mode: 'onBlur' });
     const { fields, append, remove } = useFieldArray({
         control,
         name: 'fosterbarn',
@@ -44,38 +48,49 @@ const Fosterbarn = ({ setFosterbarn }: FosterbarnProps) => {
                                     <Table.HeaderCell scope="col">Fjern</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
-                            {fields.map((field, index) => (
-                                <Table.Row key={field.id}>
-                                    <Table.DataCell>{`Fosterbarn ${index + 1}`}</Table.DataCell>
-                                    <Table.DataCell>
-                                        <TextField
-                                            {...register(`fosterbarn.${index}.fødselsnummer`, {
-                                                required: true,
-                                                minLength: 11,
-                                                maxLength: 11,
-                                                validate: {
-                                                    hasValidFodselsnummer: (value) =>
-                                                        validator.fnr(value).status === 'valid' ||
-                                                        'Ugyldig fødselsnummer',
-                                                },
-                                            })}
-                                            hideLabel
-                                            label="Fødselsnummer"
-                                            size="small"
-                                            htmlSize={11}
-                                        />
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        <Button
-                                            variant="tertiary"
-                                            onClick={() => remove(index)}
-                                            disabled={readOnly}
-                                            icon={<Delete />}
-                                            aria-label="Fjern fosterbarn"
-                                        />
-                                    </Table.DataCell>
-                                </Table.Row>
-                            ))}
+                            <Table.Body>
+                                {fields.map((field, index) => (
+                                    <Table.Row key={field.id}>
+                                        <Table.DataCell>{`Fosterbarn ${index + 1}`}</Table.DataCell>
+                                        <Table.DataCell>
+                                            <TextField
+                                                {...register(`fosterbarn.${index}.fødselsnummer`, {
+                                                    minLength: {
+                                                        value: 11,
+                                                        message: 'Fødselsnummer må være 11 siffer',
+                                                    },
+                                                    maxLength: {
+                                                        value: 11,
+                                                        message: 'Fødselsnummer må være 11 siffer',
+                                                    },
+                                                    validate: {
+                                                        hasValidFodselsnummer: (value) => {
+                                                            if (validator.fnr(value).status === 'valid') {
+                                                                return '';
+                                                            }
+                                                            return 'Ugyldig fødselsnummer';
+                                                        },
+                                                    },
+                                                })}
+                                                hideLabel
+                                                label="Fødselsnummer"
+                                                size="small"
+                                                htmlSize={11}
+                                                error={errors.fosterbarn?.[index]?.fødselsnummer?.message}
+                                            />
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            <Button
+                                                variant="tertiary"
+                                                onClick={() => remove(index)}
+                                                disabled={readOnly}
+                                                icon={<Delete />}
+                                                aria-label="Fjern fosterbarn"
+                                            />
+                                        </Table.DataCell>
+                                    </Table.Row>
+                                ))}
+                            </Table.Body>
                         </Table>
                     </Box>
                 )}
