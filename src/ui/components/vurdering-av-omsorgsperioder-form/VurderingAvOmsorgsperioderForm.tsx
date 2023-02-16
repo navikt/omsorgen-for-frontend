@@ -13,6 +13,7 @@ import { required } from '../../form/validators/index';
 import AddButton from '../add-button/AddButton';
 import DeleteButton from '../delete-button/DeleteButton';
 import styles from './vurderingAvOmsorgsperioderForm.css';
+import { Ytelsestype } from '../../../types/Ytelsestype';
 
 export enum FieldName {
     BEGRUNNELSE = 'begrunnelse',
@@ -43,6 +44,7 @@ const finnResterendePerioder = (perioderFraForm: FormPeriod[], periodeTilVurderi
 interface VurderingAvOmsorgsperioderFormProps {
     omsorgsperiode: Omsorgsperiode;
     onAvbryt: () => void;
+    fosterbarn: string[];
 }
 
 interface VurderingAvOmsorgsperioderFormState {
@@ -54,8 +56,9 @@ interface VurderingAvOmsorgsperioderFormState {
 const VurderingAvOmsorgsperioderForm = ({
     omsorgsperiode,
     onAvbryt,
+    fosterbarn,
 }: VurderingAvOmsorgsperioderFormProps): JSX.Element => {
-    const { onFinished, readOnly } = React.useContext(ContainerContext);
+    const { onFinished, readOnly, sakstype } = React.useContext(ContainerContext);
 
     const intl = useIntl();
     const formMethods = useForm({
@@ -70,6 +73,7 @@ const VurderingAvOmsorgsperioderForm = ({
         const { begrunnelse, perioder, harSøkerOmsorgenForIPeriode } = formState;
 
         let vurdertePerioder;
+        const fosterbarnForOmsorgspenger = sakstype === Ytelsestype.OMP ? fosterbarn : undefined;
         if (harSøkerOmsorgenForIPeriode === RadioOptions.DELER) {
             vurdertePerioder = perioder.map(({ period }) => ({
                 periode: period,
@@ -96,7 +100,7 @@ const VurderingAvOmsorgsperioderForm = ({
                 },
             ];
         }
-        onFinished(vurdertePerioder);
+        onFinished(vurdertePerioder, fosterbarnForOmsorgspenger);
     };
 
     const perioder = useWatch({ control: formMethods.control, name: FieldName.PERIODER });

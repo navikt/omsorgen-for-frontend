@@ -5,7 +5,7 @@ export interface ContainerContract {
         omsorgsperioder: string;
     };
     readOnly: boolean;
-    onFinished: (vurdering) => void;
+    onFinished: (vurdering, fosterbarnForOmsorgspenger) => void;
     httpErrorHandler: HttpErrorHandler;
     sakstype: string;
 }

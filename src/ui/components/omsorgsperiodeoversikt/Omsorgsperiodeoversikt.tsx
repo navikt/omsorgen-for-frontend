@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavigationWithDetailView } from '@navikt/ft-plattform-komponenter';
 import hash from 'object-hash';
 import OmsorgsperiodeoversiktType from '../../../types/Omsorgsperiodeoversikt';
@@ -7,14 +7,19 @@ import OmsorgsperiodeoversiktMessages from '../omsorgsperiodeoversikt-messages/O
 import Periodenavigasjon from '../periodenavigasjon/Periodenavigasjon';
 import OmsorgsperiodeVurderingsdetaljer from '../omsorgsperiode-vurderingsdetaljer/OmsorgsperiodeVurderingsdetaljer';
 import VurderingAvOmsorgsperioderForm from '../vurdering-av-omsorgsperioder-form/VurderingAvOmsorgsperioderForm';
+import Fosterbarn from '../fosterbarn/Fosterbarn';
+import ContainerContext from '../../context/ContainerContext';
+import { Ytelsestype } from '../../../types/Ytelsestype';
 
 interface OmsorgsperiodeoversiktProps {
     omsorgsperiodeoversikt: OmsorgsperiodeoversiktType;
 }
 
 const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: OmsorgsperiodeoversiktProps): JSX.Element => {
+    const { sakstype } = useContext(ContainerContext);
     const [valgtPeriode, setValgtPeriode] = React.useState<Omsorgsperiode>(null);
     const [erRedigeringsmodus, setErRedigeringsmodus] = React.useState(false);
+    const [fosterbarn, setFosterbarn] = React.useState<string[]>([]);
 
     const perioderTilVurdering = omsorgsperiodeoversikt.finnPerioderTilVurdering();
     const vurderteOmsorgsperioder = omsorgsperiodeoversikt.finnVurdertePerioder();
@@ -33,6 +38,7 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
     return (
         <>
             <OmsorgsperiodeoversiktMessages omsorgsperiodeoversikt={omsorgsperiodeoversikt} />
+            {sakstype === Ytelsestype.OMP && <Fosterbarn setFosterbarn={setFosterbarn} />}
             <NavigationWithDetailView
                 navigationSection={() => (
                     <Periodenavigasjon
@@ -50,6 +56,7 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
                                 key={hash(valgtPeriode)}
                                 omsorgsperiode={valgtPeriode}
                                 onAvbryt={() => velgPeriode(null)}
+                                fosterbarn={fosterbarn}
                             />
                         );
                     }

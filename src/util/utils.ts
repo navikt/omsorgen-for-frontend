@@ -1,9 +1,5 @@
 import * as messages from '../nb_NO';
-
-enum Ytelsestype {
-    PSB = 'PSB',
-    OMP = 'OMP',
-}
+import { Ytelsestype } from '../types/Ytelsestype';
 
 // eslint-disable-next-line import/prefer-default-export
 export const teksterForSakstype = (sakstype: string) => {
