@@ -1,8 +1,10 @@
 import { Box, Margin, DetailView, LabelledContent, LinkButton } from '@navikt/ft-plattform-komponenter';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
 import Omsorgsperiode from '../../../types/Omsorgsperiode';
 import Relasjon from '../../../types/Relasjon';
+import Ytelsestype from '../../../types/Ytelsestype';
+import ContainerContext from '../../context/ContainerContext';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import styles from './omsorgsperiodeVurderingsdetaljer.css';
 
@@ -18,16 +20,17 @@ const OmsorgsperiodeVurderingsdetaljer = ({
     registrertForeldrerelasjon,
 }: OmsorgsperiodeVurderingsdetaljerProps): JSX.Element => {
     const intl = useIntl();
+    const { sakstype } = useContext(ContainerContext);
     const begrunnelseRenderer = () => {
         let label = intl.formatMessage({ id: 'vurdering.hjemmel' });
         let begrunnelse = '';
         if (omsorgsperiode.erManueltVurdert()) {
             begrunnelse = omsorgsperiode.begrunnelse;
         } else if (omsorgsperiode.erAutomatiskVurdert()) {
-            if (registrertForeldrerelasjon) {
-                begrunnelse = 'Søker er folkeregistrert forelder';
-            } else {
-                begrunnelse = 'Søker er ikke folkeregistrert forelder';
+            if (sakstype !== Ytelsestype.OMP) {
+                begrunnelse = registrertForeldrerelasjon
+                    ? 'Søker er folkeregistrert forelder'
+                    : 'Søker er ikke folkeregistrert forelder';
             }
             label = 'Automatisk vurdert';
         }
@@ -46,6 +49,11 @@ const OmsorgsperiodeVurderingsdetaljer = ({
 
     const skalViseRelasjonsbeskrivelse =
         omsorgsperiode.relasjon?.toUpperCase() === Relasjon.ANNET.toUpperCase() && omsorgsperiode.relasjonsbeskrivelse;
+
+    const harSøkerOmsorgenLabel =
+        sakstype === Ytelsestype.OMP
+            ? 'Har søker omsorgen for et barn i denne perioden?'
+            : 'Har søker omsorgen for barnet i denne perioden?';
 
     return (
         <DetailView
@@ -79,7 +87,7 @@ const OmsorgsperiodeVurderingsdetaljer = ({
             )}
             <Box marginTop={Margin.xLarge}>{begrunnelseRenderer()}</Box>
             <Box marginTop={Margin.xLarge}>
-                <LabelledContent label="Har søker omsorgen for barnet i denne perioden?" content={resultatRenderer()} />
+                <LabelledContent label={harSøkerOmsorgenLabel} content={resultatRenderer()} />
             </Box>
             <Box marginTop={Margin.xLarge}>
                 <LabelledContent label="Perioder" content={omsorgsperiode.periode.prettifyPeriod()} />
