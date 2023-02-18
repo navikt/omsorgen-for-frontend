@@ -16,7 +16,7 @@ interface OmsorgsperiodeoversiktProps {
 }
 
 const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: OmsorgsperiodeoversiktProps): JSX.Element => {
-    const { sakstype } = useContext(ContainerContext);
+    const { readOnly, sakstype } = useContext(ContainerContext);
     const [valgtPeriode, setValgtPeriode] = React.useState<Omsorgsperiode>(null);
     const [erRedigeringsmodus, setErRedigeringsmodus] = React.useState(false);
     const [fosterbarn, setFosterbarn] = React.useState<string[]>([]);
@@ -38,7 +38,7 @@ const Omsorgsperiodeoversikt = ({ omsorgsperiodeoversikt }: Omsorgsperiodeoversi
     return (
         <>
             <OmsorgsperiodeoversiktMessages omsorgsperiodeoversikt={omsorgsperiodeoversikt} />
-            {sakstype === Ytelsestype.OMP && <Fosterbarn setFosterbarn={setFosterbarn} />}
+            {sakstype === Ytelsestype.OMP && !readOnly && <Fosterbarn setFosterbarn={setFosterbarn} />}
             <NavigationWithDetailView
                 navigationSection={() => (
                     <Periodenavigasjon
