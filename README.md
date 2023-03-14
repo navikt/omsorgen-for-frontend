@@ -1,4 +1,8 @@
-# Frontend for omsorgen for
+# Flyttet til https://github.com/navikt/k9-saksbehandling-frontend
+
+
+
+## Frontend for omsorgen for
 
 Dette er en frontend for "omsorgen for" i saksbehandlingen av pleiepenger ved sykt barn.
 
